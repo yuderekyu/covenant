@@ -12,7 +12,6 @@ import (
 type Subscription struct {
 	router *gin.Engine
 	subscription handlers.SubscriptionIfc
-	// orders handlers.OrdersI
 }
 
 func New() (*Subscription, error) {
@@ -38,11 +37,6 @@ func New() (*Subscription, error) {
 		subscription.POST("/:subscriptionId/deactivate", s.subscription.Deactivate)
 		subscription.DELETE("/:subscriptionId", s.subscription.Cancel)
 	}
-
-	// order := s.router.Group("/api/subscription/order")
-	// {
-	// 	order.POST("", s.)
-	// }
 
 	return s, nil
 }

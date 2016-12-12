@@ -39,15 +39,17 @@ func (s *Subscription) New(ctx *gin.Context) {
 
 	//todo add in reference to orders params?
 	err = s.sql.Modify(
-		"INSERT INTO subscription VALUE(?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO subscription VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		uuid.New(),
-		json.OrderId,
-		json.Type,
 		json.UserId,
 		json.Status,
 		json.CreatedAt,
 		json.StartAt,
-		json.TotalPrice)
+		json.ShopId,
+		json.OzInBag,
+		json.BeanName,
+		json.RoastName,
+		json.Price)
 
 	if err != nil {
 		ctx.JSON(500, &gin.H{"error": err, "message": err.Error()})
