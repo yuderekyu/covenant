@@ -6,8 +6,8 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/yuderekyu/expresso-subscription/config"
-	"github.com/yuderekyu/expresso-subscription/router"
+	"github.com/yuderekyu/covenant/config"
+	"github.com/yuderekyu/covenant/router"
 )
 
 func main() {

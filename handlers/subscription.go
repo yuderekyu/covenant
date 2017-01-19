@@ -6,9 +6,9 @@ import(
 	"gopkg.in/gin-gonic/gin.v1"
 	"github.com/pborman/uuid"
 
-	"github.com/yuderekyu/expresso-subscription/models"
-	"github.com/yuderekyu/expresso-subscription/gateways"
-	"github.com/yuderekyu/expresso-subscription/helpers"
+	"github.com/yuderekyu/covenant/models"
+	"github.com/yuderekyu/covenant/gateways"
+	"github.com/yuderekyu/covenant/helpers"
 )
 
 type SubscriptionI interface {
@@ -20,11 +20,10 @@ type SubscriptionI interface {
 	Cancel(ctx *gin.Context)
 }
 
-//@TODO implement helpers and models for these
 type Subscription struct {
 	Helper helpers.SubscriptionI
 }
-//@TODO change this sql
+
 func NewSubscription(sql gateways.SQL) SubscriptionI {
 	return &Subscription{Helper: helpers.NewSubscription(sql)}
 }

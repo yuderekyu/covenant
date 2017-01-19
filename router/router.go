@@ -5,9 +5,9 @@ import (
 
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"github.com/yuderekyu/expresso-subscription/config"
-	"github.com/yuderekyu/expresso-subscription/handlers"
-	"github.com/yuderekyu/expresso-subscription/gateways"
+	"github.com/yuderekyu/covenant/config"
+	"github.com/yuderekyu/covenant/handlers"
+	"github.com/yuderekyu/covenant/gateways"
 )
 
 type Subscription struct {

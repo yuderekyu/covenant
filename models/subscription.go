@@ -21,19 +21,20 @@ type Subscription struct {
 }
 
 func NewSubscription(userId int, createdAt string, startAt string, shopId int, ozInBag int, beanName string, roastName string, price int) *Subscription {
-	return &Subscription{
-		Id: uuid.NewUUID(),
-		UserId: userId,
-		Status: ACTIVE,
-		CreatedAt: createdAt,
-		StartAt: startAt,
-		ShopId: shopId,
-		OzInBag: ozInBag,
+	return &Subscription{ 
+		Id: uuid.NewUUID(), 
+		UserId: userId, 
+		Status: ACTIVE, 
+		CreatedAt: createdAt, 
+		StartAt: startAt, 
+		ShopId: shopId, 
+		OzInBag: ozInBag, 
 		BeanName: beanName,
 		RoastName: roastName,
 		Price: price,
 	}
 }
+
 
 func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	subscription := make([]*Subscription,0)

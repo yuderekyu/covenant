@@ -5,4 +5,4 @@ deps:
 
 run:
 	go build
-	./expresso-subscription
+	./covenant

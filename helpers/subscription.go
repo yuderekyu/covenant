@@ -3,8 +3,8 @@ package helpers
 import (
 	"gopkg.in/alexcesaro/statsd.v2"
 
-	"github.com/yuderekyu/expresso-subscription/models"
-	"github.com/yuderekyu/expresso-subscription/gateways"
+	"github.com/yuderekyu/covenant/models"
+	"github.com/yuderekyu/covenant/gateways"
 )
 
 type baseHelper struct {

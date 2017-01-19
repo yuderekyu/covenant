@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql" //load the driver anonymously 
 
-	"github.com/yuderekyu/expresso-subscription/config"
+	"github.com/yuderekyu/covenant/config"
 )
 
 type SQL interface {
