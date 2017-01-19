@@ -5,17 +5,18 @@ import (
 
 	"gopkg.in/gin-gonic/gin.v1"
 
+	"github.com/yuderekyu/expresso-subscription/config"
 	"github.com/yuderekyu/expresso-subscription/handlers"
 	"github.com/yuderekyu/expresso-subscription/gateways"
 )
 
 type Subscription struct {
 	router *gin.Engine
-	subscription handlers.SubscriptionIfc
+	subscription handlers.SubscriptionI
 }
 
-func New() (*Subscription, error) {
-	sql, err := gateways.NewSql()
+func New(config *config.Root) (*Subscription, error) {
+	sql, err := gateways.NewSQL(config.SQL)
 
 	if err != nil {
 		fmt.Println("ERROR: could not connect to mysql.")
@@ -27,18 +28,21 @@ func New() (*Subscription, error) {
 		subscription : handlers.NewSubscription(sql),
 	}
 
+	InitRouter(s)
+	return s, nil
+}
+
+func InitRouter(s *Subscription) {
 	s.router = gin.Default()
 
 	subscription := s.router.Group("/api/subscription")
 	{
 		subscription.POST("", s.subscription.New)
-		subscription.GET("", s.subscription.View)
+		subscription.GET("/:subscriptionId", s.subscription.View)
 		subscription.POST("/:subscriptionId", s.subscription.Update)
 		subscription.POST("/:subscriptionId/deactivate", s.subscription.Deactivate)
 		subscription.DELETE("/:subscriptionId", s.subscription.Cancel)
 	}
-
-	return s, nil
 }
 
 func (s *Subscription) Start(port string) {

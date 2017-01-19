@@ -6,11 +6,12 @@ import(
 	"gopkg.in/gin-gonic/gin.v1"
 	"github.com/pborman/uuid"
 
-	"github.com/yuderekyu/expresso-subscription/containers"
+	"github.com/yuderekyu/expresso-subscription/models"
 	"github.com/yuderekyu/expresso-subscription/gateways"
+	"github.com/yuderekyu/expresso-subscription/helpers"
 )
 
-type SubscriptionIfc interface {
+type SubscriptionI interface {
 	New(ctx *gin.Context)
 	ViewAll(ctx *gin.Context)
 	View(ctx *gin.Context)
@@ -19,16 +20,17 @@ type SubscriptionIfc interface {
 	Cancel(ctx *gin.Context)
 }
 
+//@TODO implement helpers and models for these
 type Subscription struct {
-	sql *gateways.Sql
+	Helper helpers.SubscriptionI
 }
-
-func NewSubscription(sql *gateways.Sql) SubscriptionIfc {
-	return &Subscription{sql: sql}
+//@TODO change this sql
+func NewSubscription(sql gateways.SQL) SubscriptionI {
+	return &Subscription{Helper: helpers.NewSubscription(sql)}
 }
 
 func (s *Subscription) New(ctx *gin.Context) {
-	var json containers.Subscription
+	var json models.Subscription
 	err := ctx.BindJSON(&json)
 
 	if err != nil {
@@ -37,34 +39,8 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	//todo add in reference to orders params?
-	err = s.sql.Modify(
-		"INSERT INTO subscription VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-		uuid.New(),
-		json.UserId,
-		json.Status,
-		json.CreatedAt,
-		json.StartAt,
-		json.ShopId,
-		json.OzInBag,
-		json.BeanName,
-		json.RoastName,
-		json.Price)
-
-	if err != nil {
-		ctx.JSON(500, &gin.H{"error": err, "message": err.Error()})
-		return
-	}
-	ctx.JSON(200, empty())
-}
-
-func (s *Subscription) ViewAll(ctx *gin.Context) {
-	rows, err := s.sql.Select("SELECT * FROM subscription")
-	if err != nil {
-		ctx.JSON(500, errResponse(err.Error()))
-		return
-	}
-	subscription, err := containers.FromSql(rows)
+	subscription := models.NewSubscription(json.UserId, json.CreatedAt, json.StartAt, json.ShopId, json.OzInBag, json.BeanName, json.RoastName, json.Price)
+	err = s.Helper.Insert(subscription)
 	if err != nil {
 		ctx.JSON(500, errResponse(err.Error()))
 		return
@@ -74,18 +50,20 @@ func (s *Subscription) ViewAll(ctx *gin.Context) {
 }
 
 func (s *Subscription) View(ctx *gin.Context) {
-	id := ctx.Param("subscriptionId")
-	if id == "" {
-		ctx.JSON(500, errResponse("subscriptionId is a required parameter"))
-		return
-	}
+	id := ctx.Param("subscriptionId") //change 
 
-	rows, err := s.sql.Select("SELECT * FROM subscription WHERE id=?")
+	subscription, err := s.Helper.GetById(id)
 	if err != nil {
 		ctx.JSON(500, errResponse(err.Error()))
-		return
+		return 
 	}
-	subscription, err := containers.FromSql(rows)
+
+	ctx.JSON(200, gin.H{"data": subscription})
+}
+
+func (s *Subscription) ViewAll(ctx *gin.Context) {
+	offset, limit := getPaging(ctx)
+	subscription, err := s.Helper.GetAll(offset, limit)
 	if err != nil {
 		ctx.JSON(500, errResponse(err.Error()))
 		return
@@ -95,7 +73,22 @@ func (s *Subscription) View(ctx *gin.Context) {
 }
 
 func (s *Subscription) Update(ctx *gin.Context) {
-	ctx.JSON(200, empty())
+	id := ctx.Param("subscriptionId")
+
+	var json models.Subscription
+	err := ctx.BindJSON(&json)
+
+	if err != nil {
+		ctx.JSON(400, errResponse(err.Error()))
+		return
+	}
+	json.Id = uuid.Parse(id)
+	if err != nil {
+		ctx.JSON(500, errResponse(err.Error()))
+		return
+	}
+
+	ctx.JSON(200, gin.H{"data": json})
 }
 
 func (s *Subscription) Deactivate(ctx *gin.Context) {
