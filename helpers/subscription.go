@@ -1,15 +1,12 @@
 package helpers
 
 import (
-	"gopkg.in/alexcesaro/statsd.v2"
-
 	"github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/models"
 )
 
 type baseHelper struct {
-	sql   gateways.SQL
-	stats *statsd.Client
+	sql gateways.SQL
 }
 
 /**/
