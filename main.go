@@ -6,7 +6,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/yuderekyu/covenant/config"
+	"github.com/ghmeier/bloodlines/config"
 	"github.com/yuderekyu/covenant/router"
 )
 
@@ -24,11 +24,6 @@ func main() {
 		return
 	}
 
-	port := os.Getenv("PORT");
-	if port == "" {
-		port = "8000"
-	}
-
-	fmt.Printf("Subscription running on %s\n", port)
-	b.Start(":"+port)
+	fmt.Printf("Subscription running on %s\n", config.Port)
+	b.Start(":" + config.Port)
 }

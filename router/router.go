@@ -3,15 +3,17 @@ package router
 import (
 	"fmt"
 
+	"gopkg.in/alexcesaro/statsd.v2"
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"github.com/yuderekyu/covenant/config"
+	"github.com/ghmeier/bloodlines/config"
+	"github.com/ghmeier/bloodlines/gateways"
+	h "github.com/ghmeier/bloodlines/handlers"
 	"github.com/yuderekyu/covenant/handlers"
-	"github.com/yuderekyu/covenant/gateways"
 )
 
 type Subscription struct {
-	router *gin.Engine
+	router       *gin.Engine
 	subscription handlers.SubscriptionI
 }
 
@@ -24,8 +26,21 @@ func New(config *config.Root) (*Subscription, error) {
 		return nil, err
 	}
 
+	stats, err := statsd.New(
+		statsd.Address(config.Statsd.Host+":"+config.Statsd.Port),
+		statsd.Prefix(config.Statsd.Prefix),
+	)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	ctx := &h.GatewayContext{
+		Sql:   sql,
+		Stats: stats,
+	}
+
 	s := &Subscription{
-		subscription : handlers.NewSubscription(sql),
+		subscription: handlers.NewSubscription(ctx),
 	}
 
 	InitRouter(s)
@@ -38,6 +53,7 @@ func InitRouter(s *Subscription) {
 	subscription := s.router.Group("/api/subscription")
 	{
 		subscription.POST("", s.subscription.New)
+		subscription.GET("", s.subscription.ViewAll)
 		subscription.GET("/:subscriptionId", s.subscription.View)
 		subscription.POST("/:subscriptionId", s.subscription.Update)
 		subscription.POST("/:subscriptionId/deactivate", s.subscription.Deactivate)

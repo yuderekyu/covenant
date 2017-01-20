@@ -3,12 +3,12 @@ package helpers
 import (
 	"gopkg.in/alexcesaro/statsd.v2"
 
+	"github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/models"
-	"github.com/yuderekyu/covenant/gateways"
 )
 
 type baseHelper struct {
-	sql gateways.SQL
+	sql   gateways.SQL
 	stats *statsd.Client
 }
 
@@ -50,7 +50,7 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 	}
 
 	subscription, err := models.SubscriptionFromSql(rows)
-	if err!= nil {
+	if err != nil {
 		return nil, err
 	}
 	return subscription, err
@@ -64,17 +64,17 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 		string(subscription.Status),
 		subscription.CreatedAt,
 		subscription.StartAt,
-		subscription.ShopId, 
+		subscription.ShopId,
 		subscription.OzInBag,
 		subscription.BeanName,
 		subscription.RoastName,
 		subscription.Price,
-		)
+	)
 	return err
 }
 
 func (s *Subscription) Update(subscription *models.Subscription) error {
-	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, shopId=?, ozInBag=?, beanName=?, roastName=?, price=? WHERE id=?", 
+	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, shopId=?, ozInBag=?, beanName=?, roastName=?, price=? WHERE id=?",
 		string(subscription.Status),
 		subscription.StartAt,
 		subscription.ShopId,
