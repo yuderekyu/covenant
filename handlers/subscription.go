@@ -26,7 +26,7 @@ type Subscription struct {
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	return &Subscription{
 		Helper:      helpers.NewSubscription(ctx.Sql),
-		BaseHandler: &handlers.BaseHandler{Stats: ctx.Stats},
+		BaseHandler: &handlers.BaseHandler{Stats: ctx.Stats}, //TODO change reference to basehandler
 	}
 }
 
@@ -77,19 +77,17 @@ func (s *Subscription) Update(ctx *gin.Context) {
 
 	var json models.Subscription
 	err := ctx.BindJSON(&json)
-
 	if err != nil {
 		s.UserError(ctx, "Error: unable to parse json", err)
 		return
 	}
 	json.Id = uuid.Parse(id)
 
-	// TODO: call helper update method.
-
-	// if err != nil {
-	// 	s.ServerError(ctx, err, json)
-	// 	return
-	// }
+	err = s.Helper.Update(&json)
+	if err != nil {
+		s.ServerError(ctx, err, json)
+		return
+	}
 
 	s.Success(ctx, json)
 }

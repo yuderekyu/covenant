@@ -9,18 +9,18 @@ import (
 
 type Subscription struct {
 	Id uuid.UUID `json: "id"`
-	UserId int `json: "userId"`
+	UserId uuid.UUID `json: "userId"`
 	Status SubscriptionStatus `json:"status"` 
 	CreatedAt string `json:"createdAt"` 
 	StartAt string `json:"startAt"` 
-	ShopId int `json: "shopId"`
-	OzInBag int `json: "ozInBag"`
+	ShopId uuid.UUID `json: "shopId"`
+	OzInBag float32 `json: "ozInBag"`
 	BeanName string `json:"beanName"`
 	RoastName string `json: "roastName"`
-	Price int `json: "price"`
+	Price float32 `json: "price"`
 }
 
-func NewSubscription(userId int, createdAt string, startAt string, shopId int, ozInBag int, beanName string, roastName string, price int) *Subscription {
+func NewSubscription(userId uuid.UUID, createdAt string, startAt string, shopId uuid.UUID, ozInBag float32, beanName string, roastName string, price float32) *Subscription {
 	return &Subscription{ 
 		Id: uuid.NewUUID(), 
 		UserId: userId, 
@@ -75,6 +75,7 @@ func toSubscriptionType(s string) (SubscriptionStatus, bool) {
 /*SubscriptionStatus is an enum wrapper for valid subscription type*/
 type SubscriptionStatus string 
 
+/*Valid Subscription Statuses*/
 const (
 	ACTIVE = "ACTIVE"
 	PENDING = "PENDING"

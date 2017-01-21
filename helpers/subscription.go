@@ -26,9 +26,9 @@ func NewSubscription(sql gateways.SQL) *Subscription {
 	return &Subscription{baseHelper: &baseHelper{sql: sql}}
 }
 
-/*Change to String*/
 func (s *Subscription) GetById(id string) (*models.Subscription, error) {
 	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price FROM subscription WHERE id =?", id)
+	//s.Id, &s.UserId, &sStatus, &s.CreatedAt, &s.StartAt, &s.ShopId, &s.OzInBag, &s.BeanName, &s.RoastName, &s.Price
 	if err != nil {
 		return nil, err
 	}
