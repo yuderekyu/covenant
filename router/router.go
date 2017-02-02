@@ -49,6 +49,7 @@ func New(config *config.Root) (*Subscription, error) {
 
 func InitRouter(s *Subscription) {
 	s.router = gin.Default()
+	s.router.Use(h.GetCors())
 
 	subscription := s.router.Group("/api/subscription")
 	{
