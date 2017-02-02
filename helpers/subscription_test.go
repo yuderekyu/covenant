@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"testing"
+	"strconv"
 
 	"github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/models"
@@ -45,7 +46,7 @@ func TestGetByIdSuccess(t *testing.T) {
 	assert.Equal(subscription.OzInBag, float64(7.5))
 	assert.Equal(subscription.BeanName, "arabica")
 	assert.Equal(subscription.RoastName, "dark")
-	assert.Equal(subscription.Price, float54(.50)
+	assert.Equal(subscription.Price, float64(.50))
 }
 
 func TestGetByIdFail(t *testing.T) {
@@ -69,17 +70,27 @@ func TestGetByIdFail(t *testing.T) {
 	assert.Error(errTwo)
 }
 
-// func TestGetByIdMapFail(t *testing.T) {
-// 	assert :assert.New(t)
+func TestInsertSuccess(t *testing.T) {
+	assert := assert.New(t)
 
-// 	id := uuid.NewUUID()
-// 	db, mock, _ := sqlmock.New()
-// 	s := getMockSubscription(db)
+	db, mock, err := sqlmock.New()
+	subscription := getDefaultSubscription()
+	s := getMockSubscription(db)
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
 
-// 	mock.ExpectQuery("SELECT id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price FROM subscription").
-// 	WithArgs(id.String()).WillReturnRows(getMockRows().AddRow(id.String(), ""))
+	mock.ExpectPrepare("INSERT INTO subscription").
+		ExpectExec().
+		WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), strconv.FormatFloat(subscription.OzInBag, 'f', 2,64), subscription.RoastName, strconv.FormatFloat(subscription.Price, 'f', 2, 64)).
+		WillReturnResult(sqlmock.NewResult(1,1))
+	
+	errTwo := s.Insert(subscription)
+	assert.Equal(mock.ExpectationsWereMet(), nil)
+	assert.NoError(errTwo)
 
-// }
+}
 
 func getMockRows() sqlmock.Rows {
 	return sqlmock.NewRows([]string{"id", "userId", "status", "createdAt", "startAt", "shopId", "ozInBag", "beanName", "roastName", "price"})
@@ -87,4 +98,11 @@ func getMockRows() sqlmock.Rows {
 
 func getMockSubscription(s *sql.DB) *Subscription {
 	return NewSubscription(&gateways.MySQL{DB: s})
+}
+
+func getDefaultSubscription() *models.Subscription {
+	userId := uuid.NewUUID()
+	shopId := uuid.NewUUID()
+
+	return models.NewSubscription(userId, "test", "test", shopId, 1.0, "test", "test", 1.0)
 }
