@@ -1,6 +1,5 @@
 FROM golang
 
-ENV PORT "8080"
 ADD ./covenant /go/bin/covenant
 ADD ./config.json /go/bin/config.json
 
