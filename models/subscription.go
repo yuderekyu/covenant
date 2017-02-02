@@ -14,13 +14,13 @@ type Subscription struct {
 	CreatedAt string `json:"createdAt"` 
 	StartAt string `json:"startAt"` 
 	ShopId uuid.UUID `json: "shopId"`
-	OzInBag float32 `json: "ozInBag"`
+	OzInBag float64 `json: "ozInBag"`
 	BeanName string `json:"beanName"`
 	RoastName string `json: "roastName"`
-	Price float32 `json: "price"`
+	Price float64 `json: "price"`
 }
 
-func NewSubscription(userId uuid.UUID, createdAt string, startAt string, shopId uuid.UUID, ozInBag float32, beanName string, roastName string, price float32) *Subscription {
+func NewSubscription(userId uuid.UUID, createdAt string, startAt string, shopId uuid.UUID, ozInBag float64, beanName string, roastName string, price float64) *Subscription {
 	return &Subscription{ 
 		Id: uuid.NewUUID(), 
 		UserId: userId, 
