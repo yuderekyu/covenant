@@ -1,7 +1,9 @@
 {
 	"ImportPath": "github.com/yuderekyu/covenant",
-	"GoVersion": "go1.7",
-	"GodepVersion": "v78",
+	"GoVersion": "go1.6.3",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/config",
@@ -43,12 +45,24 @@
 			"Rev": "8ee79997227bf9b34611aee7946ae64735e6fd93"
 		},
 		{
-			"ImportPath": "github.com/manucorporat/sse",
-			"Rev": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d"
+			"ImportPath": "github.com/jakelong95/TownCenter/gateways",
+			"Rev": "cbd37865069fba38d28988a971b43a00eb1012a5"
 		},
 		{
-			"ImportPath": "github.com/mattn/go-isatty",
-			"Rev": "30a891c33c7cde7b02a981314b4228ec99380cca"
+			"ImportPath": "github.com/jakelong95/TownCenter/models",
+			"Rev": "cbd37865069fba38d28988a971b43a00eb1012a5"
+		},
+		{
+			"ImportPath": "github.com/jonnykry/coinage/gateways",
+			"Rev": "ca6d90e5ef36781b458521ece533a4061c4df5e5"
+		},
+		{
+			"ImportPath": "github.com/jonnykry/coinage/models",
+			"Rev": "ca6d90e5ef36781b458521ece533a4061c4df5e5"
+		},
+		{
+			"ImportPath": "github.com/manucorporat/sse",
+			"Rev": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d"
 		},
 		{
 			"ImportPath": "github.com/pborman/uuid",
@@ -66,26 +80,47 @@
 			"Rev": "d087004b4d47c2a378ade9eb3957571114b91493"
 		},
 		{
-			"ImportPath": "github.com/sendgrid/sendgrid-go/helpers/mail",
-			"Comment": "v3.3.1-1-gd087004",
-			"Rev": "d087004b4d47c2a378ade9eb3957571114b91493"
-		},
-		{
 			"ImportPath": "github.com/streadway/amqp",
 			"Rev": "63795daa9a446c920826655f26ba31c81c860fd6"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/assert",
+			"Comment": "v1.1.4-6-g18a02ba",
+			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"Comment": "v1.1.4-6-g18a02ba",
+			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"Comment": "v1.1.4-6-g18a02ba",
+			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
+		},
+		{
+			"ImportPath": "github.com/stripe/stripe-go",
+			"Comment": "v19.2.0",
+			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "f2499483f923065a842d38eb4c7f1927e6fc6e6d"
 		},
 		{
-			"ImportPath": "golang.org/x/sys/unix",
-			"Rev": "d75a52659825e75fff6158388dddc6a5b04f9ba5"
+			"ImportPath": "gopkg.in/DATA-DOG/go-sqlmock.v1",
+			"Comment": "v1.1.4",
+			"Rev": "d4cd2ca2ad1cc2130bba385aab072218f131f636"
 		},
 		{
 			"ImportPath": "gopkg.in/alexcesaro/statsd.v2",
 			"Comment": "v2.0.0",
 			"Rev": "7fea3f0d2fab1ad973e641e51dba45443a311a90"
+		},
+		{
+			"ImportPath": "gopkg.in/gin-contrib/cors.v1",
+			"Comment": "v1.1",
+			"Rev": "fb918bcd825b9e20f0c3c365981baf9454029b6c"
 		},
 		{
 			"ImportPath": "gopkg.in/gin-gonic/gin.v1",
