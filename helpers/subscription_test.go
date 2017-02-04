@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"testing"
-	"strconv"
+	// "strconv"
 
 	"github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/models"
@@ -46,7 +46,7 @@ func TestGetByIdSuccess(t *testing.T) {
 	assert.Equal(subscription.OzInBag, float64(7.5))
 	assert.Equal(subscription.BeanName, "arabica")
 	assert.Equal(subscription.RoastName, "dark")
-	assert.Equal(subscription.Price, float64(.50))
+	assert.Equal(subscription.Price, float64(10.50))
 }
 
 func TestGetByIdFail(t *testing.T) {
@@ -83,13 +83,12 @@ func TestInsertSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("INSERT INTO subscription").
 		ExpectExec().
-		WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), strconv.FormatFloat(subscription.OzInBag, 'f', 2,64), subscription.RoastName, strconv.FormatFloat(subscription.Price, 'f', 2, 64)).
+		WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
 		WillReturnResult(sqlmock.NewResult(1,1))
-	
+		
 	errTwo := s.Insert(subscription)
 	assert.Equal(mock.ExpectationsWereMet(), nil)
-	assert.NoError(errTwo)
-
+	assert.NoError(errTwo) 
 }
 
 func getMockRows() sqlmock.Rows {
@@ -104,5 +103,5 @@ func getDefaultSubscription() *models.Subscription {
 	userId := uuid.NewUUID()
 	shopId := uuid.NewUUID()
 
-	return models.NewSubscription(userId, "test", "test", shopId, 1.0, "test", "test", 1.0)
+	return models.NewSubscription(userId, "test", "test", shopId, 1, "test", "test", 1)
 }
