@@ -6,9 +6,9 @@ import (
 
 	"github.com/pborman/uuid"
 
+	g "github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/config"
 	"github.com/yuderekyu/covenant/models"
-	"github.com/ghmeier/bloodlines/gateways"
 )
 
 /*Covenant wraps all methods of the covenant API*/
@@ -21,20 +21,20 @@ type Covenant interface {
 }
 
 type covenant struct {
-	*BaseService
+	*g.BaseService
 	url string
 	client *http.Client
 }
 
 func NewCovenant(config config.Covenant) Covenant{
 	return &covenant{
-		BaseService: NewBaseService(),
+		BaseService: g.NewBaseService(),
 		url: fmt.Sprintf("https://%s:%s/api/", config.Host, config.Port),
 	}
 }
 
-func (c *covenant) NewSubscription(newSubscription, *models.Subscription) (*models.Subscription, error){
-	url := ftmt.Sprintf("%ssubscription", c.url)
+func (c *covenant) NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error){
+	url := fmt.Sprintf("%ssubscription", c.url)
 
 	var subscription *models.Subscription
 	err := c.ServiceSend(http.MethodPost, url, newSubscription, subscription)
@@ -46,17 +46,17 @@ func (c *covenant) NewSubscription(newSubscription, *models.Subscription) (*mode
 }
 
 func(c *covenant) GetAllSubscription(offset int, limit int)([]*models.Subscription, error){
-
+	return nil, nil
 }
 
 func(c *covenant) GetSubscriptionById(id uuid.UUID) (*models.Subscription, error){
-
+	return nil, nil
 }
 
 func(c *covenant) UpdateSubscription(id uuid.UUID) (*models.Subscription, error){
-
+	return nil, nil
 }
 
 func(c *covenant) DeleteSubscription(id uuid.UUID) (*models.Subscription, error){
-	
+	return nil, nil
 }
