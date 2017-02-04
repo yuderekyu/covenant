@@ -14,8 +14,7 @@ type SubscriptionI interface {
 	ViewAll(ctx *gin.Context)
 	View(ctx *gin.Context)
 	Update(ctx *gin.Context)
-	Deactivate(ctx *gin.Context)
-	Cancel(ctx *gin.Context)
+	Delete(ctx *gin.Context)
 }
 
 type Subscription struct {
@@ -50,7 +49,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 }
 
 func (s *Subscription) View(ctx *gin.Context) {
-	id := ctx.Param("subscriptionId") //change
+	id := ctx.Param("subscriptionId") 
 
 	subscription, err := s.Helper.GetById(id)
 	if err != nil {
@@ -83,7 +82,7 @@ func (s *Subscription) Update(ctx *gin.Context) {
 	}
 	json.Id = uuid.Parse(id)
 
-	err = s.Helper.Update(&json)
+	err = s.Helper.Update(id, &json)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
@@ -92,10 +91,13 @@ func (s *Subscription) Update(ctx *gin.Context) {
 	s.Success(ctx, json)
 }
 
-func (s *Subscription) Deactivate(ctx *gin.Context) {
-	s.Success(ctx, nil)
-}
+func (s *Subscription) Delete(ctx *gin.Context) {
+	id := ctx.Param("subscriptionId")
 
-func (s *Subscription) Cancel(ctx *gin.Context) {
+	err := s.Helper.Delete(id)
+	if err != nil {
+		s.ServerError(ctx, err, id)
+		return
+	}
 	s.Success(ctx, nil)
 }

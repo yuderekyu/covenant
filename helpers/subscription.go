@@ -14,8 +14,9 @@ type SubscriptionI interface {
 	GetById(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	Insert(*models.Subscription) error
-	Update(*models.Subscription) error
+	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error
+	Delete(string) error
 }
 
 type Subscription struct {
@@ -70,7 +71,7 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 	return err
 }
 
-func (s *Subscription) Update(subscription *models.Subscription) error {
+func (s *Subscription) Update(id string, subscription *models.Subscription) error {
 	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, shopId=?, ozInBag=?, beanName=?, roastName=?, price=? WHERE id=?",
 		string(subscription.Status),
 		subscription.StartAt,
@@ -79,8 +80,13 @@ func (s *Subscription) Update(subscription *models.Subscription) error {
 		subscription.BeanName,
 		subscription.RoastName,
 		subscription.Price,
-		subscription.Id,
+		id,
 	)
+	return err
+}
+
+func (s *Subscription) Delete(id string) error {
+	err := s.sql.Modify("DELETE FROM subscription where id=?", id)
 	return err
 }
 

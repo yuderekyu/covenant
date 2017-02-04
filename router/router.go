@@ -57,8 +57,7 @@ func InitRouter(s *Subscription) {
 		subscription.GET("", s.subscription.ViewAll)
 		subscription.GET("/:subscriptionId", s.subscription.View)
 		subscription.POST("/:subscriptionId", s.subscription.Update)
-		subscription.POST("/:subscriptionId/deactivate", s.subscription.Deactivate)
-		subscription.DELETE("/:subscriptionId", s.subscription.Cancel)
+		subscription.DELETE("/:subscriptionId", s.subscription.Delete)
 	}
 }
 
