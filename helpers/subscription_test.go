@@ -85,10 +85,74 @@ func TestInsertSuccess(t *testing.T) {
 		ExpectExec().
 		WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
 		WillReturnResult(sqlmock.NewResult(1,1))
-		
+
 	errTwo := s.Insert(subscription)
 	assert.Equal(mock.ExpectationsWereMet(), nil)
 	assert.NoError(errTwo) 
+}
+
+func TestInsertFail(t *testing.T) {
+	assert := assert.New(t)
+
+	db, mock, err := sqlmock.New()
+	subscription :=getDefaultSubscription()
+	s := getMockSubscription(db)
+		if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	mock.ExpectPrepare("INSERT INTO subscription").
+	ExpectExec().
+	WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
+	WillReturnError(fmt.Errorf("error"))
+
+	errTwo := s.Insert(subscription)
+	assert.Equal(mock.ExpectationsWereMet(), nil)
+	assert.Error(errTwo)
+
+}
+
+func TestUpdateSuccess(t *testing.T) {
+	assert := assert.New(t)
+
+	db, mock, err := sqlmock.New()
+	subscription := getDefaultSubscription()
+	s := getMockSubscription(db)
+		if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	mock.ExpectPrepare("UPDATE subscription").
+		ExpectExec().
+		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price, subscription.Id.String()).
+		WillReturnResult(sqlmock.NewResult(1,1))
+
+	errTwo := s.Update(subscription.Id.String(), subscription)
+	assert.Equal(mock.ExpectationsWereMet(), nil)
+	assert.NoError(errTwo)
+}
+
+func TestUpdateFail(t *testing.T) {
+	assert := assert.New(t)
+
+	db, mock, err := sqlmock.New()
+	subscription := getDefaultSubscription()
+	s := getMockSubscription(db)
+		if err != nil {
+			t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	mock.ExpectPrepare("UPDATE subscription").
+		ExpectExec().
+		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price, subscription.Id.String()).
+		WillReturnError(fmt.Errorf("error"))
+
+	errTwo := s.Update(subscription.Id.String(), subscription)
+	assert.Equal(mock.ExpectationsWereMet(), nil)
+	assert.Error(errTwo)
 }
 
 func getMockRows() sqlmock.Rows {
