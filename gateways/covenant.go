@@ -75,7 +75,7 @@ func(c *covenant) UpdateSubscription(id uuid.UUID) (*models.Subscription, error)
 	if(err != nil){
 		return nil, err
 	}
-	return nil, nil
+	return subscription, nil
 }
 
 func(c *covenant) DeleteSubscription(id uuid.UUID) error{
