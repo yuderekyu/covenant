@@ -8,27 +8,27 @@ import (
 )
 
 type Subscription struct {
-	Id uuid.UUID `json: "id"`
-	UserId uuid.UUID `json: "userId"`
+	ID uuid.UUID `json: "id"`
+	UserID uuid.UUID `json: "userId"`
 	Status SubscriptionStatus `json:"status"` 
 	CreatedAt string `json:"createdAt"` 
 	StartAt string `json:"startAt"` 
-	ShopId uuid.UUID `json: "shopId"`
-	OzInBag float64 `json: "ozInBag"`
+	ShopID uuid.UUID `json: "shopId"`
+	OZInBag float64 `json: "ozInBag"`
 	BeanName string `json:"beanName"`
 	RoastName string `json: "roastName"`
 	Price float64 `json: "price"`
 }
 
-func NewSubscription(userId uuid.UUID, createdAt string, startAt string, shopId uuid.UUID, ozInBag float64, beanName string, roastName string, price float64) *Subscription {
+func NewSubscription(userID uuid.UUID, createdAt string, startAt string, shopID uuid.UUID, ozInBag float64, beanName string, roastName string, price float64) *Subscription {
 	return &Subscription{ 
-		Id: uuid.NewUUID(), 
-		UserId: userId, 
+		ID: uuid.NewUUID(), 
+		UserID: userID, 
 		Status: ACTIVE, 
 		CreatedAt: createdAt, 
 		StartAt: startAt, 
-		ShopId: shopId, 
-		OzInBag: ozInBag, 
+		ShopID: shopID, 
+		OZInBag: ozInBag, 
 		BeanName: beanName,
 		RoastName: roastName,
 		Price: price,
@@ -42,7 +42,7 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	for rows.Next() {
 		s := &Subscription{}
 		var sStatus string
-		rows.Scan(&s.Id, &s.UserId, &sStatus, &s.CreatedAt, &s.StartAt, &s.ShopId, &s.OzInBag, &s.BeanName, &s.RoastName, &s.Price)
+		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.StartAt, &s.ShopID, &s.OZInBag, &s.BeanName, &s.RoastName, &s.Price)
 		subscription = append(subscription, s)
 
 		var ok bool

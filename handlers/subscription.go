@@ -38,7 +38,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	subscription := models.NewSubscription(json.UserId, json.CreatedAt, json.StartAt, json.ShopId, json.OzInBag, json.BeanName, json.RoastName, json.Price)
+	subscription := models.NewSubscription(json.UserID, json.CreatedAt, json.StartAt, json.ShopID, json.OZInBag, json.BeanName, json.RoastName, json.Price)
 	err = s.Helper.Insert(subscription)
 	if err != nil {
 		s.ServerError(ctx, err, json)
@@ -51,7 +51,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 func (s *Subscription) View(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId") 
 
-	subscription, err := s.Helper.GetById(id)
+	subscription, err := s.Helper.GetByID(id)
 	if err != nil {
 		s.ServerError(ctx, err, nil)
 		return
@@ -80,7 +80,7 @@ func (s *Subscription) Update(ctx *gin.Context) {
 		s.UserError(ctx, "Error: unable to parse json", err)
 		return
 	}
-	json.Id = uuid.Parse(id)
+	json.ID = uuid.Parse(id)
 
 	err = s.Helper.Update(id, &json)
 	if err != nil {

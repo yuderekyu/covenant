@@ -18,8 +18,8 @@ func TestGetByIdSuccess(t *testing.T) {
 	assert := assert.New(t)
 
 	id := uuid.NewUUID()
-	userId := uuid.NewUUID()
-	shopId := uuid.NewUUID()
+	userID := uuid.NewUUID()
+	shopID := uuid.NewUUID()
 
 	db, mock, err := sqlmock.New()
 	s := getMockSubscription(db)
@@ -31,19 +31,19 @@ func TestGetByIdSuccess(t *testing.T) {
 
 	mock.ExpectQuery("SELECT id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price FROM subscription").
 		WithArgs(id.String()).
-		WillReturnRows(getMockRows().AddRow(id.String(), userId.String(), "ACTIVE", "01/01/11", "02/02/11", shopId.String(), 7.5, "arabica", "dark", 10.50))
+		WillReturnRows(getMockRows().AddRow(id.String(), userID.String(), "ACTIVE", "01/01/11", "02/02/11", shopID.String(), 7.5, "arabica", "dark", 10.50))
 
-	subscription, err := s.GetById(id.String())
+	subscription, err := s.GetByID(id.String())
 	fmt.Println(subscription)
 	assert.Equal(mock.ExpectationsWereMet(), nil)
 	assert.NoError(err)
-	assert.Equal(subscription.Id, id)
-	assert.Equal(subscription.UserId, userId)
+	assert.Equal(subscription.ID, id)
+	assert.Equal(subscription.UserID, userID)
 	assert.EqualValues(subscription.Status, models.ACTIVE)
 	assert.Equal(subscription.CreatedAt, "01/01/11")
 	assert.Equal(subscription.StartAt, "02/02/11")
-	assert.Equal(subscription.ShopId, shopId)
-	assert.Equal(subscription.OzInBag, float64(7.5))
+	assert.Equal(subscription.ShopID, shopID)
+	assert.Equal(subscription.OZInBag, float64(7.5))
 	assert.Equal(subscription.BeanName, "arabica")
 	assert.Equal(subscription.RoastName, "dark")
 	assert.Equal(subscription.Price, float64(10.50))
@@ -64,7 +64,7 @@ func TestGetByIdFail(t *testing.T) {
 		WithArgs(id.String()).
 		WillReturnError(fmt.Errorf("error"))
 
-	_, errTwo := s.GetById(id.String())
+	_, errTwo := s.GetByID(id.String())
 
 	assert.Equal(mock.ExpectationsWereMet(), nil)
 	assert.Error(errTwo)
@@ -83,7 +83,7 @@ func TestInsertSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("INSERT INTO subscription").
 		ExpectExec().
-		WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
+		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopID.String(), subscription.OZInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
 		WillReturnResult(sqlmock.NewResult(1,1))
 
 	errTwo := s.Insert(subscription)
@@ -104,7 +104,7 @@ func TestInsertFail(t *testing.T) {
 
 	mock.ExpectPrepare("INSERT INTO subscription").
 	ExpectExec().
-	WithArgs(subscription.Id.String(), subscription.UserId.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
+	WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.ShopID.String(), subscription.OZInBag, subscription.BeanName, subscription.RoastName, subscription.Price).
 	WillReturnError(fmt.Errorf("error"))
 
 	errTwo := s.Insert(subscription)
@@ -126,10 +126,10 @@ func TestUpdateSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("UPDATE subscription").
 		ExpectExec().
-		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price, subscription.Id.String()).
+		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.ShopID.String(), subscription.OZInBag, subscription.BeanName, subscription.RoastName, subscription.Price, subscription.ID.String()).
 		WillReturnResult(sqlmock.NewResult(1,1))
 
-	errTwo := s.Update(subscription.Id.String(), subscription)
+	errTwo := s.Update(subscription.ID.String(), subscription)
 	assert.Equal(mock.ExpectationsWereMet(), nil)
 	assert.NoError(errTwo)
 }
@@ -147,10 +147,10 @@ func TestUpdateFail(t *testing.T) {
 
 	mock.ExpectPrepare("UPDATE subscription").
 		ExpectExec().
-		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.ShopId.String(), subscription.OzInBag, subscription.BeanName, subscription.RoastName, subscription.Price, subscription.Id.String()).
+		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.ShopID.String(), subscription.OZInBag, subscription.BeanName, subscription.RoastName, subscription.Price, subscription.ID.String()).
 		WillReturnError(fmt.Errorf("error"))
 
-	errTwo := s.Update(subscription.Id.String(), subscription)
+	errTwo := s.Update(subscription.ID.String(), subscription)
 	assert.Equal(mock.ExpectationsWereMet(), nil)
 	assert.Error(errTwo)
 }
@@ -164,8 +164,8 @@ func getMockSubscription(s *sql.DB) *Subscription {
 }
 
 func getDefaultSubscription() *models.Subscription {
-	userId := uuid.NewUUID()
-	shopId := uuid.NewUUID()
+	userID := uuid.NewUUID()
+	shopID := uuid.NewUUID()
 
-	return models.NewSubscription(userId, "test", "test", shopId, 1, "test", "test", 1)
+	return models.NewSubscription(userID, "test", "test", shopID, 1, "test", "test", 1)
 }

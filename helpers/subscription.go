@@ -11,7 +11,7 @@ type baseHelper struct {
 
 /**/
 type SubscriptionI interface {
-	GetById(string) (*models.Subscription, error)
+	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	Insert(*models.Subscription) error
 	Update(string, *models.Subscription) error
@@ -27,9 +27,8 @@ func NewSubscription(sql gateways.SQL) *Subscription {
 	return &Subscription{baseHelper: &baseHelper{sql: sql}}
 }
 
-func (s *Subscription) GetById(id string) (*models.Subscription, error) {
+func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price FROM subscription WHERE id =?", id)
-	//s.Id, &s.UserId, &sStatus, &s.CreatedAt, &s.StartAt, &s.ShopId, &s.OzInBag, &s.BeanName, &s.RoastName, &s.Price
 	if err != nil {
 		return nil, err
 	}
@@ -57,13 +56,13 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
 		"INSERT INTO subscription (id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-		subscription.Id,
-		subscription.UserId,
+		subscription.ID,
+		subscription.UserID,
 		string(subscription.Status),
 		subscription.CreatedAt,
 		subscription.StartAt,
-		subscription.ShopId,
-		subscription.OzInBag,
+		subscription.ShopID,
+		subscription.OZInBag,
 		subscription.BeanName,
 		subscription.RoastName,
 		subscription.Price,
@@ -75,8 +74,8 @@ func (s *Subscription) Update(id string, subscription *models.Subscription) erro
 	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, shopId=?, ozInBag=?, beanName=?, roastName=?, price=? WHERE id=?",
 		string(subscription.Status),
 		subscription.StartAt,
-		subscription.ShopId,
-		subscription.OzInBag,
+		subscription.ShopID,
+		subscription.OZInBag,
 		subscription.BeanName,
 		subscription.RoastName,
 		subscription.Price,
