@@ -36,6 +36,11 @@ type Covenant struct {
 	Host string `json:"host"`
 	Port string `json:"port"`
 }
+/*Coinage has connection information for the coinage service*/
+type Coinage struct {
+	Host string `json:"host"`
+	Port string `json:"port"`
+}
 /*Statsd contains connection information for graphite stats*/
 type Statsd struct {
 	Host string `json:"host"`

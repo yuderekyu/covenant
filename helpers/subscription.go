@@ -9,7 +9,6 @@ type baseHelper struct {
 	sql gateways.SQL
 }
 
-/**/
 type SubscriptionI interface {
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
