@@ -6,12 +6,12 @@ A Go service handling Expresso subscriptions
 
 ## API
 
-## Subscription
+### Subscription
 
-### `POST /api/subscription` creates and adds a new subscription to the database
+#### `POST /api/subscription` creates and adds a new subscription to the database
 
-### `GET /api/subscription/:subscriptionId` returns the  subscription with the given subscriptionId
+#### `GET /api/subscription/:subscriptionId` returns the  subscription with the given subscriptionId
 
-### `POST /api/subscription/:subscriptionId` updates the subscription with the given subscriptionId
+#### `POST /api/subscription/:subscriptionId` updates the subscription with the given subscriptionId
 
-### `DELETE /api/subscription/:subscriptionId` deletes the subscription with the given subscriptionId
+#### `DELETE /api/subscription/:subscriptionId` deletes the subscription with the given subscriptionId
