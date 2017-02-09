@@ -7,23 +7,23 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/config",
-			"Rev": "226cd7daeefa884b12c387ed398a4da0acbd4368"
+			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/gateways",
-			"Rev": "226cd7daeefa884b12c387ed398a4da0acbd4368"
+			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/handlers",
-			"Rev": "226cd7daeefa884b12c387ed398a4da0acbd4368"
+			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/helpers",
-			"Rev": "226cd7daeefa884b12c387ed398a4da0acbd4368"
+			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/models",
-			"Rev": "226cd7daeefa884b12c387ed398a4da0acbd4368"
+			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
@@ -46,19 +46,19 @@
 		},
 		{
 			"ImportPath": "github.com/jakelong95/TownCenter/gateways",
-			"Rev": "178a7d7188cecc0321027ecee98a5532642c0199"
+			"Rev": "feb18a0f2357ad969839a31ad4eb333597809f45"
 		},
 		{
 			"ImportPath": "github.com/jakelong95/TownCenter/models",
-			"Rev": "178a7d7188cecc0321027ecee98a5532642c0199"
+			"Rev": "feb18a0f2357ad969839a31ad4eb333597809f45"
 		},
 		{
 			"ImportPath": "github.com/jonnykry/coinage/gateways",
-			"Rev": "ca6d90e5ef36781b458521ece533a4061c4df5e5"
+			"Rev": "af30131fa8fad514878dca437e7fb3ad37283b04"
 		},
 		{
 			"ImportPath": "github.com/jonnykry/coinage/models",
-			"Rev": "ca6d90e5ef36781b458521ece533a4061c4df5e5"
+			"Rev": "af30131fa8fad514878dca437e7fb3ad37283b04"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/models",
