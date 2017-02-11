@@ -12,6 +12,8 @@ type baseHelper struct {
 type SubscriptionI interface {
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
+	GetByRoaster(string, int, int) ([]*models.Subscription, error)
+	GetByUser(string, int, int) ([]*models.Subscription, error)
 	Insert(*models.Subscription) error
 	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error
@@ -27,7 +29,7 @@ func NewSubscription(sql gateways.SQL) *Subscription {
 }
 
 func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemID FROM subscription WHERE id =?", id)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription WHERE id =?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +42,33 @@ func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 }
 
 func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	subscription, err := models.SubscriptionFromSql(rows)
+	if err != nil {
+		return nil, err
+	}
+	return subscription, err
+}
+
+func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]*models.Subscription, error) {
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription WHERE roasterId = ? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	subscription, err := models.SubscriptionFromSql(rows)
+	if err != nil {
+		return nil, err
+	}
+	return subscription, err
+}
+
+func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error){
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription WHERE userId = ? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
 	if err != nil {
 		return nil, err
 	}

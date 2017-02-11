@@ -124,7 +124,7 @@ func TestUpdateSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("UPDATE subscription").
 		ExpectExec().
-		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.ID.String()).
+		WithArgs(string(models.PENDING), subscription.StartAt, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.ID.String()).
 		WillReturnResult(sqlmock.NewResult(1,1))
 
 	errTwo := s.Update(subscription.ID.String(), subscription)

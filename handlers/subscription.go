@@ -13,6 +13,8 @@ type SubscriptionI interface {
 	New(ctx *gin.Context)
 	ViewAll(ctx *gin.Context)
 	View(ctx *gin.Context)
+	ViewByRoaster(ctx *gin.Context)
+	ViewByUser(ctx *gin.Context)
 	Update(ctx *gin.Context)
 	Delete(ctx *gin.Context)
 }
@@ -71,6 +73,32 @@ func (s *Subscription) ViewAll(ctx *gin.Context) {
 	s.Success(ctx, subscriptions)
 }
 
+func(s *Subscription) ViewByRoaster(ctx *gin.Context) {
+	roasterID := ctx.Param("roasterId")
+	offset, limit := s.GetPaging(ctx)
+
+	subscriptions, err := s.Helper.GetByRoaster(roasterID, offset, limit)
+	if err != nil {
+		s.ServerError(ctx, err, nil)
+		return
+	}
+
+	s.Success(ctx, subscriptions)
+}
+
+func(s *Subscription) ViewByUser(ctx *gin.Context) {
+	userID := ctx.Param("userId")
+	offset, limit := s.GetPaging(ctx)
+
+	subscriptions, err := s.Helper.GetByUser(userID, offset, limit)
+	if err != nil {
+		s.ServerError(ctx, err, nil)
+		return
+	}
+
+	s.Success(ctx, subscriptions)
+}
+ 
 func (s *Subscription) Update(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId")
 

@@ -16,6 +16,8 @@ type Covenant interface {
 	NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error)
 	GetAllSubscription(offset int, limit int) ([]*models.Subscription, error)
 	GetSubscriptionById(id uuid.UUID) (*models.Subscription, error)
+	GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, limit int) (*models.Subscription, error)
+	GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error)
 	UpdateSubscription(id uuid.UUID) (*models.Subscription, error)
 	DeleteSubscription(id uuid.UUID) error
 }
@@ -57,7 +59,29 @@ func (c *covenant) GetAllSubscription(offset int, limit int) ([]*models.Subscrip
 }
 
 func (c *covenant) GetSubscriptionById(id uuid.UUID) (*models.Subscription, error) {
-	url := fmt.Sprintf("%ssubscription/%s", c.url, id)
+	url := fmt.Sprintf("%ssubscription/%s", c.url, id.String())
+
+	var subscription *models.Subscription
+	err := c.ServiceSend(http.MethodGet, url, nil, subscription)
+	if err != nil {
+		return nil, err
+	}
+	return subscription, nil
+}
+
+func (c *covenant) GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
+	url := fmt.Sprintf("%ssubscription/%s?offset=%d&limit=%d", c.url, roasterID.String(), offset, limit)
+
+	var subscription *models.Subscription
+	err := c.ServiceSend(http.MethodGet, url, nil, subscription)
+	if err != nil {
+		return nil, err
+	}
+	return subscription, nil
+}
+
+func (c *covenant) GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
+	url := fmt.Sprintf("%ssubscription/%s?offset=%d&limit=%d", c.url, userID.String(), offset, limit)
 
 	var subscription *models.Subscription
 	err := c.ServiceSend(http.MethodGet, url, nil, subscription)
