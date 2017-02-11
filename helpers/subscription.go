@@ -27,7 +27,7 @@ func NewSubscription(sql gateways.SQL) *Subscription {
 }
 
 func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price FROM subscription WHERE id =?", id)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemID FROM subscription WHERE id =?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -54,30 +54,24 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
-		"INSERT INTO subscription (id, userId, status, createdAt, startAt, shopId, ozInBag, beanName, roastName, price) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO subscription (id, userId, status, createdAt, startAt, roasterId, itemId) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		subscription.ID,
 		subscription.UserID,
 		string(subscription.Status),
 		subscription.CreatedAt,
 		subscription.StartAt,
-		subscription.ShopID,
-		subscription.OZInBag,
-		subscription.BeanName,
-		subscription.RoastName,
-		subscription.Price,
+		subscription.RoasterID,
+		subscription.ItemID,
 	)
 	return err
 }
 
 func (s *Subscription) Update(id string, subscription *models.Subscription) error {
-	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, shopId=?, ozInBag=?, beanName=?, roastName=?, price=? WHERE id=?",
+	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, roasterId=?, itemId=? WHERE id=?",
 		string(subscription.Status),
 		subscription.StartAt,
-		subscription.ShopID,
-		subscription.OZInBag,
-		subscription.BeanName,
-		subscription.RoastName,
-		subscription.Price,
+		subscription.RoasterID,
+		subscription.ItemID,
 		id,
 	)
 	return err

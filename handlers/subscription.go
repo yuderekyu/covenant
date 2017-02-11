@@ -38,7 +38,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	subscription := models.NewSubscription(json.UserID, json.CreatedAt, json.StartAt, json.ShopID, json.OZInBag, json.BeanName, json.RoastName, json.Price)
+	subscription := models.NewSubscription(json.UserID, json.CreatedAt, json.StartAt, json.RoasterID, json.ItemID)
 	err = s.Helper.Insert(subscription)
 	if err != nil {
 		s.ServerError(ctx, err, json)
