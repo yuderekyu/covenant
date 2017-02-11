@@ -81,7 +81,7 @@ func TestInsertSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("INSERT INTO subscription").
 		ExpectExec().
-		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.RoasterID.String(), subscription.RoasterID.String()).
+		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.ACTIVE), subscription.CreatedAt, subscription.StartAt, subscription.RoasterID.String(), subscription.ItemID.String()).
 		WillReturnResult(sqlmock.NewResult(1,1))
 
 	errTwo := s.Insert(subscription)
@@ -124,7 +124,7 @@ func TestUpdateSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("UPDATE subscription").
 		ExpectExec().
-		WithArgs(string(models.PENDING), subscription.StartAt, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.ID.String()).
+		WithArgs(string(models.ACTIVE), subscription.StartAt, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.ID.String()).
 		WillReturnResult(sqlmock.NewResult(1,1))
 
 	errTwo := s.Update(subscription.ID.String(), subscription)
