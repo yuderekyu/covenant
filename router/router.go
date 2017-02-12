@@ -51,15 +51,15 @@ func InitRouter(s *Subscription) {
 	s.router = gin.Default()
 	s.router.Use(h.GetCors())
 
-	subscription := s.router.Group("/api/subscription")
+	subscription := s.router.Group("/api")
 	{
-		subscription.POST("", s.subscription.New)
-		subscription.GET("", s.subscription.ViewAll)
-		subscription.GET("/:subscriptionId", s.subscription.View)
-		subscription.GET("/:roasterId", s.subscription.ViewByRoaster)
-		subscription.GET("/:userId", s.subscription.ViewByUser)
-		subscription.POST("/:subscriptionId", s.subscription.Update)
-		subscription.DELETE("/:subscriptionId", s.subscription.Delete)
+		subscription.POST("/subscription", s.subscription.New)
+		subscription.GET("/subscription", s.subscription.ViewAll)
+		subscription.GET("/subscription/:subscriptionId", s.subscription.View)
+		subscription.GET("/roaster/subscription/:roasterId", s.subscription.ViewByRoaster)
+		subscription.GET("/user/subscription/:userId", s.subscription.ViewByUser)
+		subscription.POST("/subscription/:subscriptionId", s.subscription.Update)
+		subscription.DELETE("/subscription/:subscriptionId", s.subscription.Delete)
 	}
 }
 
