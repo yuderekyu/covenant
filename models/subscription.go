@@ -7,6 +7,7 @@ import (
 	"github.com/pborman/uuid"
 )
 
+/*Subscription is the representation of subscription entries in covenant*/
 type Subscription struct {
 	ID uuid.UUID `json: "id"`
 	UserID uuid.UUID `json: "userId"` 
@@ -17,6 +18,7 @@ type Subscription struct {
 	ItemID uuid.UUID `json: "itemID"`
 }
 
+/*NewSubscription creates a new subscription with a new uuid*/
 func NewSubscription(userID uuid.UUID, createdAt string, startAt string, roasterID uuid.UUID, itemID uuid.UUID) *Subscription {
 	return &Subscription{ 
 		ID: uuid.NewUUID(), 
@@ -29,7 +31,7 @@ func NewSubscription(userID uuid.UUID, createdAt string, startAt string, roaster
 	}
 }
 
-
+/*SubscriptionFromSql returns a new subscription slice from a group of sql rows*/
 func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	subscription := make([]*Subscription,0)
 
@@ -50,6 +52,7 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	return subscription, nil
 }
 
+/*toSubscriptionType checks whether a given status is valid*/
 func toSubscriptionType(s string) (SubscriptionStatus, bool) {
 	switch s {
 	case ACTIVE:

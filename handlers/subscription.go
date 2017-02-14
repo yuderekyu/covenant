@@ -9,6 +9,7 @@ import (
 	"github.com/yuderekyu/covenant/models"
 )
 
+/*SubscriptionI contains the methods for a subscription handler*/
 type SubscriptionI interface {
 	New(ctx *gin.Context)
 	ViewAll(ctx *gin.Context)
@@ -19,11 +20,13 @@ type SubscriptionI interface {
 	Delete(ctx *gin.Context)
 }
 
+/*Subscription is the handler for all subscription api calls*/
 type Subscription struct {
 	*handlers.BaseHandler
 	Helper helpers.SubscriptionI
 }
 
+/*NewSubscription returns a subscription handler*/
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	return &Subscription{
 		Helper:      helpers.NewSubscription(ctx.Sql),
@@ -31,6 +34,7 @@ func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	}
 }
 
+/*New adds the given subscription entry to the database*/
 func (s *Subscription) New(ctx *gin.Context) {
 	var json models.Subscription
 	err := ctx.BindJSON(&json)
@@ -50,6 +54,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 	s.Success(ctx, subscription)
 }
 
+/*View returns the subscription entry with the given subscriptionId*/
 func (s *Subscription) View(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId") 
 
@@ -62,6 +67,7 @@ func (s *Subscription) View(ctx *gin.Context) {
 	s.Success(ctx, subscription)
 }
 
+/*ViewAll returns a list of subscriptions with offset and limit determining the entries and amount*/
 func (s *Subscription) ViewAll(ctx *gin.Context) {
 	offset, limit := s.GetPaging(ctx)
 	subscriptions, err := s.Helper.GetAll(offset, limit)
@@ -73,6 +79,8 @@ func (s *Subscription) ViewAll(ctx *gin.Context) {
 	s.Success(ctx, subscriptions)
 }
 
+/*ViewByRoaster returns a list of subscriptions with the given roasterId,
+with the offset and limit determining the entries and amount*/
 func(s *Subscription) ViewByRoaster(ctx *gin.Context) {
 	roasterID := ctx.Param("roasterId")
 	offset, limit := s.GetPaging(ctx)
@@ -86,6 +94,8 @@ func(s *Subscription) ViewByRoaster(ctx *gin.Context) {
 	s.Success(ctx, subscriptions)
 }
 
+/*ViewByUser returns a list of subscriptions with the given roasterId,
+with the offset and limit determining the entries and amount*/
 func(s *Subscription) ViewByUser(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	offset, limit := s.GetPaging(ctx)
@@ -98,7 +108,8 @@ func(s *Subscription) ViewByUser(ctx *gin.Context) {
 
 	s.Success(ctx, subscriptions)
 }
- 
+
+/*Update overwrites a subscription with the given subscriptionId*/
 func (s *Subscription) Update(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId")
 
@@ -119,6 +130,7 @@ func (s *Subscription) Update(ctx *gin.Context) {
 	s.Success(ctx, json)
 }
 
+/*Delete removes a subscription with the given subscriptionId*/
 func (s *Subscription) Delete(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId")
 
