@@ -37,7 +37,6 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 		s := &Subscription{}
 		var sStatus string
 		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.StartAt, &s.RoasterID, &s.ItemID)
-		subscription = append(subscription, s)
 
 		var ok bool
 		s.Status, ok = toSubscriptionType(sStatus)
