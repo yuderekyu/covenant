@@ -34,4 +34,14 @@ func (_m *SubscriptionI) ViewAll(ctx *gin.Context) {
 	_m.Called(ctx)
 }
 
+// ViewByRoaster provides a mock function with given fields: ctx
+func (_m *SubscriptionI) ViewByRoaster(ctx *gin.Context) {
+	_m.Called(ctx)
+}
+
+// ViewByUser provides a mock function with given fields: ctx
+func (_m *SubscriptionI) ViewByUser(ctx *gin.Context) {
+	_m.Called(ctx)
+}
+
 var _ handlers.SubscriptionI = (*SubscriptionI)(nil)

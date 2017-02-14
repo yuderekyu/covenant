@@ -70,6 +70,52 @@ func (_m *Covenant) GetSubscriptionById(id uuid.UUID) (*models.Subscription, err
 	return r0, r1
 }
 
+// GetSubscriptionByRoaster provides a mock function with given fields: roasterID, offset, limit
+func (_m *Covenant) GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
+	ret := _m.Called(roasterID, offset, limit)
+
+	var r0 *models.Subscription
+	if rf, ok := ret.Get(0).(func(uuid.UUID, int, int) *models.Subscription); ok {
+		r0 = rf(roasterID, offset, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*models.Subscription)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(uuid.UUID, int, int) error); ok {
+		r1 = rf(roasterID, offset, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetSubscriptionByUser provides a mock function with given fields: userID, offset, limit
+func (_m *Covenant) GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
+	ret := _m.Called(userID, offset, limit)
+
+	var r0 *models.Subscription
+	if rf, ok := ret.Get(0).(func(uuid.UUID, int, int) *models.Subscription); ok {
+		r0 = rf(userID, offset, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*models.Subscription)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(uuid.UUID, int, int) error); ok {
+		r1 = rf(userID, offset, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // NewSubscription provides a mock function with given fields: newSubscription
 func (_m *Covenant) NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error) {
 	ret := _m.Called(newSubscription)
