@@ -22,12 +22,14 @@ type Covenant interface {
 	DeleteSubscription(id uuid.UUID) error
 }
 
+/*covenant is the structure for the Covenant service*/
 type covenant struct {
 	*g.BaseService
 	url    string
 	client *http.Client
 }
 
+/*NewCovenant creates and returns a Covenant struct whic points to the service denoted in the config*/
 func NewCovenant(config config.Covenant) Covenant {
 	return &covenant{
 		BaseService: g.NewBaseService(),
@@ -35,6 +37,7 @@ func NewCovenant(config config.Covenant) Covenant {
 	}
 }
 
+/*NewSubscription creates a new subscription*/
 func (c *covenant) NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription", c.url)
 
@@ -47,6 +50,7 @@ func (c *covenant) NewSubscription(newSubscription *models.Subscription) (*model
 	return subscription, nil
 }
 
+/*GetAllSubscription returns a list of subscription with the offset and limit determining the entries and amount*/
 func (c *covenant) GetAllSubscription(offset int, limit int) ([]*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription?offset=%d&limit=%d", c.url, offset, limit)
 
@@ -58,6 +62,7 @@ func (c *covenant) GetAllSubscription(offset int, limit int) ([]*models.Subscrip
 	return subscription, nil
 }
 
+/*GetSubscriptionById returns a subscription with the given id*/
 func (c *covenant) GetSubscriptionById(id uuid.UUID) (*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription/%s", c.url, id.String())
 
@@ -69,6 +74,7 @@ func (c *covenant) GetSubscriptionById(id uuid.UUID) (*models.Subscription, erro
 	return subscription, nil
 }
 
+/*GetSubscriptionByRoaster returns a list of subscription of the given roasterID, with the offset and limit determining the entries and amount*/
 func (c *covenant) GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription/%s?offset=%d&limit=%d", c.url, roasterID.String(), offset, limit)
 
@@ -80,6 +86,7 @@ func (c *covenant) GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, lim
 	return subscription, nil
 }
 
+/*GetSubscriptionByRoaster returns a list of subscription of the given userID, with the offset and limit determining the entries and amount*/
 func (c *covenant) GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription/%s?offset=%d&limit=%d", c.url, userID.String(), offset, limit)
 
@@ -91,6 +98,7 @@ func (c *covenant) GetSubscriptionByUser(userID uuid.UUID, offset int, limit int
 	return subscription, nil
 }
 
+/*UpdateSubscription overwrites a subscription by the given id */
 func (c *covenant) UpdateSubscription(id uuid.UUID) (*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription%s", c.url, id)
 
@@ -102,6 +110,7 @@ func (c *covenant) UpdateSubscription(id uuid.UUID) (*models.Subscription, error
 	return subscription, nil
 }
 
+/*DeleteSubscription removes a subscription by the given id*/
 func (c *covenant) DeleteSubscription(id uuid.UUID) error {
 	url := fmt.Sprintf("%ssubscription%s", c.url, id)
 

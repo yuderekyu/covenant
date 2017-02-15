@@ -12,11 +12,13 @@ import (
 	"github.com/yuderekyu/covenant/handlers"
 )
 
+/*Subscription is the main server object which routes requests*/
 type Subscription struct {
 	router       *gin.Engine
 	subscription handlers.SubscriptionI
 }
 
+/*New returns a Subscription struct configured by the given config file*/
 func New(config *config.Root) (*Subscription, error) {
 	sql, err := gateways.NewSQL(config.SQL)
 
@@ -47,6 +49,7 @@ func New(config *config.Root) (*Subscription, error) {
 	return s, nil
 }
 
+/*InitRouter connects the given endpoints to the router with gin*/
 func InitRouter(s *Subscription) {
 	s.router = gin.Default()
 	s.router.Use(h.GetCors())
@@ -63,6 +66,7 @@ func InitRouter(s *Subscription) {
 	}
 }
 
+/*Start begins the Covenant server*/
 func (s *Subscription) Start(port string) {
 	s.router.Run(port)
 }
