@@ -53,6 +53,7 @@ func InitRouter(s *Subscription) {
 
 	subscription := s.router.Group("/api")
 	{
+		subscription.Use(s.subscription.Time())
 		subscription.POST("/subscription", s.subscription.New)
 		subscription.GET("/subscription", s.subscription.ViewAll)
 		subscription.GET("/subscription/:subscriptionId", s.subscription.View)

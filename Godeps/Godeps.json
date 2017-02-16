@@ -7,23 +7,31 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/config",
-			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
+			"Rev": "10757055f08b983670628de513c0d95813cb1df7"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/gateways",
-			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
+			"Rev": "10757055f08b983670628de513c0d95813cb1df7"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/handlers",
-			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
+			"Rev": "10757055f08b983670628de513c0d95813cb1df7"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/helpers",
-			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
+			"Rev": "10757055f08b983670628de513c0d95813cb1df7"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/models",
-			"Rev": "1715864dd1658bbac3c706d8e2bc73cc9824deca"
+			"Rev": "10757055f08b983670628de513c0d95813cb1df7"
+		},
+		{
+			"ImportPath": "github.com/ghmeier/coinage/gateways",
+			"Rev": "2560d7390136bd6ea87d531c1865bd653f38b9ce"
+		},
+		{
+			"ImportPath": "github.com/ghmeier/coinage/models",
+			"Rev": "2560d7390136bd6ea87d531c1865bd653f38b9ce"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
@@ -46,23 +54,15 @@
 		},
 		{
 			"ImportPath": "github.com/jakelong95/TownCenter/gateways",
-			"Rev": "feb18a0f2357ad969839a31ad4eb333597809f45"
+			"Rev": "cbbfa774610ec54da267cd0a7dfa4bfcc207c045"
 		},
 		{
 			"ImportPath": "github.com/jakelong95/TownCenter/models",
-			"Rev": "feb18a0f2357ad969839a31ad4eb333597809f45"
-		},
-		{
-			"ImportPath": "github.com/jonnykry/coinage/gateways",
-			"Rev": "af30131fa8fad514878dca437e7fb3ad37283b04"
-		},
-		{
-			"ImportPath": "github.com/jonnykry/coinage/models",
-			"Rev": "af30131fa8fad514878dca437e7fb3ad37283b04"
+			"Rev": "cbbfa774610ec54da267cd0a7dfa4bfcc207c045"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/models",
-			"Rev": "b20ee27ba75276ff81c07662b5e88439a083b0ad"
+			"Rev": "49da0e8b11e482c2074422a71db02c1994dfd405"
 		},
 		{
 			"ImportPath": "github.com/manucorporat/sse",

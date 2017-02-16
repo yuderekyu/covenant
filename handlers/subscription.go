@@ -18,6 +18,7 @@ type SubscriptionI interface {
 	ViewByUser(ctx *gin.Context)
 	Update(ctx *gin.Context)
 	Delete(ctx *gin.Context)
+	Time() gin.HandlerFunc
 }
 
 /*Subscription is the handler for all subscription api calls*/
@@ -56,7 +57,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 
 /*View returns the subscription entry with the given subscriptionId*/
 func (s *Subscription) View(ctx *gin.Context) {
-	id := ctx.Param("subscriptionId") 
+	id := ctx.Param("subscriptionId")
 
 	subscription, err := s.Helper.GetByID(id)
 	if err != nil {
@@ -81,7 +82,7 @@ func (s *Subscription) ViewAll(ctx *gin.Context) {
 
 /*ViewByRoaster returns a list of subscriptions with the given roasterId,
 with the offset and limit determining the entries and amount*/
-func(s *Subscription) ViewByRoaster(ctx *gin.Context) {
+func (s *Subscription) ViewByRoaster(ctx *gin.Context) {
 	roasterID := ctx.Param("roasterId")
 	offset, limit := s.GetPaging(ctx)
 
@@ -96,7 +97,7 @@ func(s *Subscription) ViewByRoaster(ctx *gin.Context) {
 
 /*ViewByUser returns a list of subscriptions with the given roasterId,
 with the offset and limit determining the entries and amount*/
-func(s *Subscription) ViewByUser(ctx *gin.Context) {
+func (s *Subscription) ViewByUser(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	offset, limit := s.GetPaging(ctx)
 
