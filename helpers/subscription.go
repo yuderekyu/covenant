@@ -3,6 +3,8 @@ package helpers
 import (
 	"github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/models"
+	t"github.com/jakelong95/TownCenter/gateways"
+	w"github.com/lcollin/warehouse/gateways"
 )
 
 type baseHelper struct {
@@ -24,16 +26,22 @@ type SubscriptionI interface {
 /*Subscription is the helper for subscription entries*/
 type Subscription struct {
 	*baseHelper
+	TownCenter t.TownCenterI
+	Warehouse w.Warehouse
 }
 
 /*NewSubscription returns a new Subscription helper*/
-func NewSubscription(sql gateways.SQL) *Subscription {
-	return &Subscription{baseHelper: &baseHelper{sql: sql}}
+func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse) *Subscription {
+	return &Subscription{
+		baseHelper: &baseHelper{sql: sql},
+		TownCenter: tc,
+		Warehouse: wh,
+	}
 }
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
 func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription WHERE id =?", id)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE id =?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +55,7 @@ func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 
 /*GetAll returns <limit> subscription entries from <offset> number*/
 func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +69,7 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided roasterID*/
 func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription WHERE roasterId = ? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE roasterId = ? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +83,7 @@ func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided userID*/
 func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error){
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, startAt, roasterId, itemId FROM subscription WHERE userId = ? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE userId = ? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -90,12 +98,12 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 /*Insert adds the given subscription entry*/
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
-		"INSERT INTO subscription (id, userId, status, createdAt, startAt, roasterId, itemId) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		subscription.ID,
 		subscription.UserID,
 		string(subscription.Status),
 		subscription.CreatedAt,
-		subscription.StartAt,
+		subscription.Frequency,
 		subscription.RoasterID,
 		subscription.ItemID,
 	)
@@ -104,9 +112,9 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 
 /*Update upserts the subscription with the given id*/
 func (s *Subscription) Update(id string, subscription *models.Subscription) error {
-	err := s.sql.Modify("UPDATE subscription SET status=?, startAt=?, roasterId=?, itemId=? WHERE id=?",
+	err := s.sql.Modify("UPDATE subscription SET status=?, frequency=?, roasterId=?, itemId=? WHERE id=?",
 		string(subscription.Status),
-		subscription.StartAt,
+		subscription.Frequency,
 		subscription.RoasterID,
 		subscription.ItemID,
 		id,

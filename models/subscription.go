@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"time"
 
 	"github.com/pborman/uuid"
 )
@@ -12,21 +13,29 @@ type Subscription struct {
 	ID uuid.UUID `json: "id"`
 	UserID uuid.UUID `json: "userId"` 
 	Status SubscriptionStatus `json:"status"` 
-	CreatedAt string `json:"createdAt"` 
-	StartAt string `json:"startAt"` 
+	CreatedAt time.Time `json:"createdAt"` 	 
+	Frequency string `json:"frequency"` 
 	RoasterID uuid.UUID `json: "roasterID"`
 	ItemID uuid.UUID `json: "itemID"`
 }
 
+/*RequestIdentifiers represents the data needed from other services to create a subscription entry*/
+type RequestIdentifiers struct { 
+	UserID uuid.UUID `json: "userId" binding: "required"`
+	Frequency string `json:"frequency" binding: "required"`
+	RoasterID uuid.UUID `json : "roasterId" binding: "required"`
+	ItemID uuid.UUID `json: "itemId" binding: "required"`
+}
+
 /*NewSubscription creates a new subscription with a new uuid*/
-func NewSubscription(userID uuid.UUID, createdAt string, startAt string, roasterID uuid.UUID, itemID uuid.UUID) *Subscription {
+func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID) *Subscription {
 	return &Subscription{ 
 		ID: uuid.NewUUID(), 
 		UserID: userID, 
 		Status: ACTIVE, 
-		CreatedAt: createdAt, 
-		StartAt: startAt, 
-		RoasterID: roasterID,
+		CreatedAt: time.Now(), 
+		Frequency: frequency, 
+		RoasterID: roasterID, 
 		ItemID: itemID, 
 	}
 }
@@ -38,7 +47,7 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	for rows.Next() {
 		s := &Subscription{}
 		var sStatus string
-		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.StartAt, &s.RoasterID, &s.ItemID)
+		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID)
 
 		var ok bool
 		s.Status, ok = toSubscriptionType(sStatus)
@@ -47,7 +56,6 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 		}
 		subscription = append(subscription, s)
 	}
-
 
 	return subscription, nil
 }

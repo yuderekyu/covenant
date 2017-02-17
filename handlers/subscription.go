@@ -29,22 +29,22 @@ type Subscription struct {
 /*NewSubscription returns a subscription handler*/
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	return &Subscription{
-		Helper:      helpers.NewSubscription(ctx.Sql),
+		Helper:      helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
 		BaseHandler: &handlers.BaseHandler{Stats: ctx.Stats}, //TODO change reference to basehandler
 	}
 }
 
 /*New adds the given subscription entry to the database*/
 func (s *Subscription) New(ctx *gin.Context) {
-	var json models.Subscription
-	err := ctx.BindJSON(&json)
 
+	var json models.RequestIdentifiers
+	err := ctx.BindJSON(&json)
 	if err != nil {
 		s.UserError(ctx, "Error: unable to parse json", err)
 		return
 	}
 
-	subscription := models.NewSubscription(json.UserID, json.CreatedAt, json.StartAt, json.RoasterID, json.ItemID)
+	subscription := models.NewSubscription(json.UserID, json.Frequency, json.RoasterID, json.ItemID)
 	err = s.Helper.Insert(subscription)
 	if err != nil {
 		s.ServerError(ctx, err, json)
