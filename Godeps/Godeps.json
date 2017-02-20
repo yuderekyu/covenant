@@ -8,23 +8,23 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/config",
-			"Rev": "85e49642a28e3859c8d829e64dab36358b871bcf"
+			"Rev": "5cd23693f1a4c8b8737e12a89a621d747ff7449e"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/gateways",
-			"Rev": "85e49642a28e3859c8d829e64dab36358b871bcf"
+			"Rev": "5cd23693f1a4c8b8737e12a89a621d747ff7449e"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/handlers",
-			"Rev": "85e49642a28e3859c8d829e64dab36358b871bcf"
+			"Rev": "5cd23693f1a4c8b8737e12a89a621d747ff7449e"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/helpers",
-			"Rev": "85e49642a28e3859c8d829e64dab36358b871bcf"
+			"Rev": "5cd23693f1a4c8b8737e12a89a621d747ff7449e"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/bloodlines/models",
-			"Rev": "85e49642a28e3859c8d829e64dab36358b871bcf"
+			"Rev": "5cd23693f1a4c8b8737e12a89a621d747ff7449e"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/coinage/gateways",
@@ -63,7 +63,7 @@
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/models",
-			"Rev": "b12e377d787b2106fd118540f4010d176b55cc57"
+			"Rev": "4191191b94c04a6ac1afc8ba138364808c365c2d"
 		},
 		{
 			"ImportPath": "github.com/manucorporat/sse",
@@ -148,11 +148,11 @@
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/gateways",
-			"Rev": "b12e377d787b2106fd118540f4010d176b55cc57"
+			"Rev": "4191191b94c04a6ac1afc8ba138364808c365c2d"
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/gateways",
-			"Rev": "f3960d7e30e2392854312a4b890cd3bc18bf82c5"
+			"Rev": "ebc623f5668471caa11baf973b3b6ed46bd81f40"
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go/client",
@@ -161,7 +161,7 @@
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/models",
-			"Rev": "f3960d7e30e2392854312a4b890cd3bc18bf82c5"
+			"Rev": "ebc623f5668471caa11baf973b3b6ed46bd81f40"
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go/orderitem",
