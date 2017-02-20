@@ -98,7 +98,7 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 /*Insert adds the given subscription entry*/
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
-		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId) VALUE(?, ?, ?, ?, ?, ?, ?)",
 		subscription.ID,
 		subscription.UserID,
 		string(subscription.Status),
