@@ -50,6 +50,11 @@ func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if(len(subscription) == 0) {
+		return nil, nil
+	}
+	
 	return subscription[0], err
 }
 

@@ -65,6 +65,11 @@ func (s *Subscription) View(ctx *gin.Context) {
 		return
 	}
 
+	if(subscription == nil) {
+		s.UserError(ctx, "Error: Subscription does not exist", id)
+		return
+	}
+
 	s.Success(ctx, subscription)
 }
 
