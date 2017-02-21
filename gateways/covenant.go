@@ -29,7 +29,7 @@ type covenant struct {
 	client *http.Client
 }
 
-/*NewCovenant creates and returns a Covenant struct whic points to the service denoted in the config*/
+/*NewCovenant creates and returns a Covenant struct which points to the service denoted in the config*/
 func NewCovenant(config config.Covenant) Covenant {
 	return &covenant{
 		BaseService: g.NewBaseService(),
