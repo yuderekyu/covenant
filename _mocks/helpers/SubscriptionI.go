@@ -1,6 +1,6 @@
 package mocks
 
-import helpers "github.com/yuderekyu/covenant/helpers"
+import helpers "github.com/lcollin/covenant/helpers"
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/yuderekyu/covenant/models"
 
