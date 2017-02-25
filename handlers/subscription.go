@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/pborman/uuid"
+	"gopkg.in/alexcesaro/statsd.v2"
 	"gopkg.in/gin-gonic/gin.v1"
 
 	"github.com/ghmeier/bloodlines/handlers"
@@ -29,9 +30,10 @@ type Subscription struct {
 
 /*NewSubscription returns a subscription handler*/
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
+	stats := ctx.Stats.Clone(statsd.Prefix("api.subscription"))
 	return &Subscription{
 		Subscription:      helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
-		BaseHandler: &handlers.BaseHandler{Stats: ctx.Stats}, 
+		BaseHandler: &handlers.BaseHandler{Stats: stats}, 
 	}
 }
 
