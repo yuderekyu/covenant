@@ -24,14 +24,14 @@ type SubscriptionI interface {
 /*Subscription is the handler for all subscription api calls*/
 type Subscription struct {
 	*handlers.BaseHandler
-	Helper helpers.SubscriptionI
+	Subscription helpers.SubscriptionI
 }
 
 /*NewSubscription returns a subscription handler*/
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	return &Subscription{
-		Helper:      helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
-		BaseHandler: &handlers.BaseHandler{Stats: ctx.Stats}, //TODO change reference to basehandler
+		Subscription:      helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
+		BaseHandler: &handlers.BaseHandler{Stats: ctx.Stats}, 
 	}
 }
 
@@ -46,7 +46,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 	}
 
 	subscription := models.NewSubscription(json.UserID, json.Frequency, json.RoasterID, json.ItemID)
-	err = s.Helper.Insert(subscription)
+	err = s.Subscription.Insert(subscription)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
@@ -59,7 +59,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 func (s *Subscription) View(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId")
 
-	subscription, err := s.Helper.GetByID(id)
+	subscription, err := s.Subscription.GetByID(id)
 	if err != nil {
 		s.ServerError(ctx, err, nil)
 		return
@@ -76,7 +76,7 @@ func (s *Subscription) View(ctx *gin.Context) {
 /*ViewAll returns a list of subscriptions with offset and limit determining the entries and amount*/
 func (s *Subscription) ViewAll(ctx *gin.Context) {
 	offset, limit := s.GetPaging(ctx)
-	subscriptions, err := s.Helper.GetAll(offset, limit)
+	subscriptions, err := s.Subscription.GetAll(offset, limit)
 	if err != nil {
 		s.ServerError(ctx, err, nil)
 		return
@@ -91,7 +91,7 @@ func (s *Subscription) ViewByRoaster(ctx *gin.Context) {
 	roasterID := ctx.Param("roasterId")
 	offset, limit := s.GetPaging(ctx)
 
-	subscriptions, err := s.Helper.GetByRoaster(roasterID, offset, limit)
+	subscriptions, err := s.Subscription.GetByRoaster(roasterID, offset, limit)
 	if err != nil {
 		s.ServerError(ctx, err, nil)
 		return
@@ -106,7 +106,7 @@ func (s *Subscription) ViewByUser(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	offset, limit := s.GetPaging(ctx)
 
-	subscriptions, err := s.Helper.GetByUser(userID, offset, limit)
+	subscriptions, err := s.Subscription.GetByUser(userID, offset, limit)
 	if err != nil {
 		s.ServerError(ctx, err, nil)
 		return
@@ -127,7 +127,7 @@ func (s *Subscription) Update(ctx *gin.Context) {
 	}
 	json.ID = uuid.Parse(id)
 
-	err = s.Helper.Update(id, &json)
+	err = s.Subscription.Update(id, &json)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
@@ -140,7 +140,7 @@ func (s *Subscription) Update(ctx *gin.Context) {
 func (s *Subscription) Delete(ctx *gin.Context) {
 	id := ctx.Param("subscriptionId")
 
-	err := s.Helper.Delete(id)
+	err := s.Subscription.Delete(id)
 	if err != nil {
 		s.ServerError(ctx, err, id)
 		return

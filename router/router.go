@@ -60,10 +60,11 @@ func InitRouter(s *Subscription) {
 		subscription.POST("/subscription", s.subscription.New)
 		subscription.GET("/subscription", s.subscription.ViewAll)
 		subscription.GET("/subscription/:subscriptionId", s.subscription.View)
+		subscription.PUT("/subscription/:subscriptionId", s.subscription.Update)
+		subscription.DELETE("/subscription/:subscriptionId", s.subscription.Delete)
+
 		subscription.GET("/roaster/subscription/:roasterId", s.subscription.ViewByRoaster)
 		subscription.GET("/user/subscription/:userId", s.subscription.ViewByUser)
-		subscription.POST("/subscription/:subscriptionId", s.subscription.Update)
-		subscription.DELETE("/subscription/:subscriptionId", s.subscription.Delete)
 	}
 }
 

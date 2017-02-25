@@ -74,7 +74,7 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided roasterID*/
 func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE roasterId = ? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE roasterId=? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided userID*/
 func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error){
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE userId = ? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE userId=? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
 	if err != nil {
 		return nil, err
 	}

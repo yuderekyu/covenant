@@ -1,6 +1,6 @@
 package mocks
 
-import gateways "github.com/lcollin/covenant/gateways"
+import gateways "github.com/yuderekyu/covenant/gateways"
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/yuderekyu/covenant/models"
 import uuid "github.com/pborman/uuid"
