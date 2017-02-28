@@ -10,6 +10,8 @@ import (
 	"github.com/ghmeier/bloodlines/gateways"
 	h "github.com/ghmeier/bloodlines/handlers"
 	"github.com/yuderekyu/covenant/handlers"
+	tcg "github.com/jakelong95/TownCenter/gateways"
+	whg "github.com/lcollin/warehouse/gateways"
 )
 
 /*Subscription is the main server object which routes requests*/
@@ -32,12 +34,18 @@ func New(config *config.Root) (*Subscription, error) {
 		statsd.Address(config.Statsd.Host+":"+config.Statsd.Port),
 		statsd.Prefix(config.Statsd.Prefix),
 	)
+
+	towncenter := tcg.NewTownCenter(config.TownCenter)
+	warehouse := whg.NewWarehouse(config.Warehouse)
+	
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	ctx := &h.GatewayContext{
 		Sql:   sql,
+		TownCenter: towncenter,
+		Warehouse: warehouse,
 		Stats: stats,
 	}
 
