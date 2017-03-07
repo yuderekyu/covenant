@@ -20,6 +20,7 @@ type SubscriptionI interface {
 	Update(ctx *gin.Context)
 	Delete(ctx *gin.Context)
 	Time() gin.HandlerFunc
+	GetJWT() gin.HandlerFunc
 }
 
 /*Subscription is the handler for all subscription api calls*/

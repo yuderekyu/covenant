@@ -9,9 +9,9 @@ import (
 	"github.com/ghmeier/bloodlines/config"
 	"github.com/ghmeier/bloodlines/gateways"
 	h "github.com/ghmeier/bloodlines/handlers"
-	"github.com/yuderekyu/covenant/handlers"
 	tcg "github.com/jakelong95/TownCenter/gateways"
 	whg "github.com/lcollin/warehouse/gateways"
+	"github.com/yuderekyu/covenant/handlers"
 )
 
 /*Subscription is the main server object which routes requests*/
@@ -37,16 +37,16 @@ func New(config *config.Root) (*Subscription, error) {
 
 	towncenter := tcg.NewTownCenter(config.TownCenter)
 	warehouse := whg.NewWarehouse(config.Warehouse)
-	
+
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	ctx := &h.GatewayContext{
-		Sql:   sql,
+		Sql:        sql,
 		TownCenter: towncenter,
-		Warehouse: warehouse,
-		Stats: stats,
+		Warehouse:  warehouse,
+		Stats:      stats,
 	}
 
 	s := &Subscription{
@@ -65,6 +65,7 @@ func InitRouter(s *Subscription) {
 	subscription := s.router.Group("/api")
 	{
 		subscription.Use(s.subscription.Time())
+		subscription.Use(s.subscription.GetJWT())
 		subscription.POST("/subscription", s.subscription.New)
 		subscription.GET("/subscription", s.subscription.ViewAll)
 		subscription.GET("/subscription/:subscriptionId", s.subscription.View)
