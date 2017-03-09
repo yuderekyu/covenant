@@ -152,7 +152,7 @@
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/gateways",
-			"Rev": "3504bd0f1c20ea42f47ae873318f7e635ad700de"
+			"Rev": "fcff698de47842e2a5b47f7013e49afd2224d208"
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go/client",
@@ -161,7 +161,7 @@
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/models",
-			"Rev": "3504bd0f1c20ea42f47ae873318f7e635ad700de"
+			"Rev": "fcff698de47842e2a5b47f7013e49afd2224d208"
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go/orderitem",
