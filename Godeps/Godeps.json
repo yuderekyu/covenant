@@ -7,6 +7,155 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/awserr",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/awsutil",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/client",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/client/metadata",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/corehandlers",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/endpointcreds",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/stscreds",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/defaults",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/ec2metadata",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/endpoints",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/request",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/session",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws/signer/v4",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query/queryutil",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/rest",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/restxml",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/waiter",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/s3",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/s3/s3iface",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/s3/s3manager",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/sts",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/davecgh/go-spew/spew",
+			"Comment": "v1.1.0",
+			"Rev": "346938d642f2ec3594ed81d874461961cd0faa76"
+		},
+		{
+			"ImportPath": "github.com/dgrijalva/jwt-go",
+			"Comment": "v3.0.0-17-g2268707",
+			"Rev": "2268707a8f0843315e2004ee4f1d021dc08baedf"
+		},
+		{
+			"ImportPath": "github.com/ghmeier/bloodlines/_mocks/gateways",
+			"Rev": "3c4ddd8afb69460e51cf2ac6c85b9696ddf51697"
+		},
+		{
 			"ImportPath": "github.com/ghmeier/bloodlines/config",
 			"Rev": "3c4ddd8afb69460e51cf2ac6c85b9696ddf51697"
 		},
@@ -45,6 +194,11 @@
 			"Rev": "3900df04d2a88e22beaf6a2970c63648b9e1b0e1"
 		},
 		{
+			"ImportPath": "github.com/go-ini/ini",
+			"Comment": "v1.25.2-1-gc437d20",
+			"Rev": "c437d20015c2ab6454b7a66a13109ff0fb99e17a"
+		},
+		{
 			"ImportPath": "github.com/go-sql-driver/mysql",
 			"Comment": "v1.2-208-g2a6c607",
 			"Rev": "2a6c6079c7eff49a7e9d641e109d922f124a3e4c"
@@ -54,12 +208,33 @@
 			"Rev": "98fa357170587e470c5f27d3c3ea0947b71eb455"
 		},
 		{
+			"ImportPath": "github.com/jakelong95/TownCenter/_mocks",
+			"Rev": "f497d1ca5c023fefb9de95ba84109c2416103b88"
+		},
+		{
 			"ImportPath": "github.com/jakelong95/TownCenter/gateways",
+			"Rev": "f497d1ca5c023fefb9de95ba84109c2416103b88"
+		},
+		{
+			"ImportPath": "github.com/jakelong95/TownCenter/helpers",
 			"Rev": "f497d1ca5c023fefb9de95ba84109c2416103b88"
 		},
 		{
 			"ImportPath": "github.com/jakelong95/TownCenter/models",
 			"Rev": "f497d1ca5c023fefb9de95ba84109c2416103b88"
+		},
+		{
+			"ImportPath": "github.com/jmespath/go-jmespath",
+			"Comment": "0.2.2-14-gbd40a43",
+			"Rev": "bd40a432e4c76585ef6b72d3fd96fb9b6dc7b68d"
+		},
+		{
+			"ImportPath": "github.com/lcollin/warehouse/_mocks/gateways",
+			"Rev": "7ee4315b9ae207b93f7bcebf390c42a5c6e7f4ea"
+		},
+		{
+			"ImportPath": "github.com/lcollin/warehouse/gateways",
+			"Rev": "7ee4315b9ae207b93f7bcebf390c42a5c6e7f4ea"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/models",
@@ -75,6 +250,11 @@
 			"Rev": "3d4f2ba23642d3cfd06bd4b54cf03d99d95c0f1b"
 		},
 		{
+			"ImportPath": "github.com/pmezard/go-difflib/difflib",
+			"Comment": "v1.0.0",
+			"Rev": "792786c7400a136282c1664665ae0a8db921c6c2"
+		},
+		{
 			"ImportPath": "github.com/sendgrid/rest",
 			"Comment": "v2.3.1",
 			"Rev": "3ec51b4f1754e13e92409355851a0a82e9a06461"
@@ -85,8 +265,17 @@
 			"Rev": "d087004b4d47c2a378ade9eb3957571114b91493"
 		},
 		{
+			"ImportPath": "github.com/sendgrid/sendgrid-go/helpers/mail",
+			"Comment": "v3.3.1-1-gd087004",
+			"Rev": "d087004b4d47c2a378ade9eb3957571114b91493"
+		},
+		{
 			"ImportPath": "github.com/streadway/amqp",
 			"Rev": "4da4cfa085c174b489ec35cf1e29ffb147d45298"
+		},
+		{
+			"ImportPath": "github.com/stretchr/objx",
+			"Rev": "1a9d0bb9f541897e62256577b352fdbc1fb4fd94"
 		},
 		{
 			"ImportPath": "github.com/stretchr/testify/assert",
@@ -94,77 +283,12 @@
 			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
 		},
 		{
-			"ImportPath": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
-			"Comment": "v1.1.4-6-g18a02ba",
-			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
-		},
-		{
-			"ImportPath": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"ImportPath": "github.com/stretchr/testify/mock",
 			"Comment": "v1.1.4-6-g18a02ba",
 			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go",
-			"Comment": "v19.2.0",
-			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
-		},
-		{
-			"ImportPath": "golang.org/x/net/context",
-			"Rev": "65dfc08770ce66f74becfdff5f8ab01caef4e946"
-		},
-		{
-			"ImportPath": "gopkg.in/DATA-DOG/go-sqlmock.v1",
-			"Comment": "v1.1.4",
-			"Rev": "d4cd2ca2ad1cc2130bba385aab072218f131f636"
-		},
-		{
-			"ImportPath": "gopkg.in/alexcesaro/statsd.v2",
-			"Comment": "v2.0.0",
-			"Rev": "7fea3f0d2fab1ad973e641e51dba45443a311a90"
-		},
-		{
-			"ImportPath": "gopkg.in/gin-contrib/cors.v1",
-			"Comment": "v1.1",
-			"Rev": "fb918bcd825b9e20f0c3c365981baf9454029b6c"
-		},
-		{
-			"ImportPath": "gopkg.in/gin-gonic/gin.v1",
-			"Comment": "v1.0",
-			"Rev": "2dae550eb5392006a4582ce9c90016a9b5a74e8b"
-		},
-		{
-			"ImportPath": "gopkg.in/go-playground/validator.v8",
-			"Comment": "v8.18.1",
-			"Rev": "5f57d2222ad794d0dffb07e664ea05e2ee07d60c"
-		},
-		{
-			"ImportPath": "gopkg.in/yaml.v2",
-			"Rev": "a5b47d31c556af34a302ce5d659e6fea44d90de0"
-		},
-		{
-			"ImportPath": "github.com/sendgrid/sendgrid-go/helpers/mail",
-			"Comment": "v3.3.1-1-gd087004",
-			"Rev": "d087004b4d47c2a378ade9eb3957571114b91493"
-		},
-		{
-			"ImportPath": "github.com/lcollin/warehouse/gateways",
-			"Rev": "7ee4315b9ae207b93f7bcebf390c42a5c6e7f4ea"
-		},
-		{
-			"ImportPath": "github.com/yuderekyu/covenant/gateways",
-			"Rev": "fcff698de47842e2a5b47f7013e49afd2224d208"
-		},
-		{
-			"ImportPath": "github.com/stripe/stripe-go/client",
-			"Comment": "v19.2.0",
-			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
-		},
-		{
-			"ImportPath": "github.com/yuderekyu/covenant/models",
-			"Rev": "fcff698de47842e2a5b47f7013e49afd2224d208"
-		},
-		{
-			"ImportPath": "github.com/stripe/stripe-go/orderitem",
 			"Comment": "v19.2.0",
 			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
 		},
@@ -200,6 +324,11 @@
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go/charge",
+			"Comment": "v19.2.0",
+			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
+		},
+		{
+			"ImportPath": "github.com/stripe/stripe-go/client",
 			"Comment": "v19.2.0",
 			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
 		},
@@ -264,6 +393,11 @@
 			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
 		},
 		{
+			"ImportPath": "github.com/stripe/stripe-go/orderitem",
+			"Comment": "v19.2.0",
+			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
+		},
+		{
 			"ImportPath": "github.com/stripe/stripe-go/orderreturn",
 			"Comment": "v19.2.0",
 			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
@@ -324,154 +458,37 @@
 			"Rev": "3f2707ab5115e7c54c70a77aabcb386d6f405810"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "65dfc08770ce66f74becfdff5f8ab01caef4e946"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/session",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+			"ImportPath": "gopkg.in/DATA-DOG/go-sqlmock.v1",
+			"Comment": "v1.1.4",
+			"Rev": "d4cd2ca2ad1cc2130bba385aab072218f131f636"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/service/s3",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+			"ImportPath": "gopkg.in/alexcesaro/statsd.v2",
+			"Comment": "v2.0.0",
+			"Rev": "7fea3f0d2fab1ad973e641e51dba45443a311a90"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/service/s3/s3manager",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+			"ImportPath": "gopkg.in/gin-contrib/cors.v1",
+			"Comment": "v1.1",
+			"Rev": "fb918bcd825b9e20f0c3c365981baf9454029b6c"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/awserr",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+			"ImportPath": "gopkg.in/gin-gonic/gin.v1",
+			"Comment": "v1.0",
+			"Rev": "2dae550eb5392006a4582ce9c90016a9b5a74e8b"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+			"ImportPath": "gopkg.in/go-playground/validator.v8",
+			"Comment": "v8.18.1",
+			"Rev": "5f57d2222ad794d0dffb07e664ea05e2ee07d60c"
 		},
 		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/endpoints",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/client",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/corehandlers",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/stscreds",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/defaults",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/request",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/vendor/github.com/go-ini/ini",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/awsutil",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/client/metadata",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/signer/v4",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/restxml",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/waiter",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/service/s3/s3iface",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/service/sts",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/credentials/endpointcreds",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/aws/ec2metadata",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/vendor/github.com/jmespath/go-jmespath",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/rest",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query/queryutil",
-			"Comment": "v1.7.6-1-g37f127c",
-			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
-		},
-		{
-			"ImportPath": "github.com/dgrijalva/jwt-go",
-			"Comment": "v3.0.0-17-g2268707",
-			"Rev": "2268707a8f0843315e2004ee4f1d021dc08baedf"
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "a5b47d31c556af34a302ce5d659e6fea44d90de0"
 		}
 	]
 }
