@@ -10,39 +10,39 @@ import (
 
 /*Subscription is the representation of subscription entries in covenant*/
 type Subscription struct {
-	ID uuid.UUID `json: "id"`
-	UserID uuid.UUID `json: "userId"` 
-	Status SubscriptionStatus `json:"status"` 
-	CreatedAt time.Time `json:"createdAt"` 	 
-	Frequency string `json:"frequency"` 
-	RoasterID uuid.UUID `json: "roasterID"`
-	ItemID uuid.UUID `json: "itemID"`
+	ID        uuid.UUID          `json: "id"`
+	UserID    uuid.UUID          `json: "userId"`
+	Status    SubscriptionStatus `json:"status"`
+	CreatedAt time.Time          `json:"createdAt"`
+	Frequency string             `json:"frequency"`
+	RoasterID uuid.UUID          `json: "roasterID"`
+	ItemID    uuid.UUID          `json: "itemID"`
 }
 
 /*RequestIdentifiers represents the data needed from other services to create a subscription entry*/
-type RequestIdentifiers struct { 
-	UserID uuid.UUID `json: "userId" binding: "required"`
-	Frequency string `json:"frequency" binding: "required"`
+type RequestIdentifiers struct {
+	UserID    uuid.UUID `json: "userId" binding: "required"`
+	Frequency string    `json:"frequency" binding: "required"`
 	RoasterID uuid.UUID `json : "roasterId" binding: "required"`
-	ItemID uuid.UUID `json: "itemId" binding: "required"`
+	ItemID    uuid.UUID `json: "itemId" binding: "required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
 func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID) *Subscription {
-	return &Subscription{ 
-		ID: uuid.NewUUID(), 
-		UserID: userID, 
-		Status: ACTIVE, 
-		CreatedAt: time.Now(), 
-		Frequency: frequency, 
-		RoasterID: roasterID, 
-		ItemID: itemID, 
+	return &Subscription{
+		ID:        uuid.NewUUID(),
+		UserID:    userID,
+		Status:    ACTIVE,
+		CreatedAt: time.Now(),
+		Frequency: frequency,
+		RoasterID: roasterID,
+		ItemID:    itemID,
 	}
 }
 
 /*SubscriptionFromSql returns a new subscription slice from a group of sql rows*/
 func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
-	subscription := make([]*Subscription,0)
+	subscription := make([]*Subscription, 0)
 
 	for rows.Next() {
 		s := &Subscription{}
@@ -77,12 +77,12 @@ func toSubscriptionType(s string) (SubscriptionStatus, bool) {
 }
 
 /*SubscriptionStatus is an enum wrapper for valid subscription type*/
-type SubscriptionStatus string 
+type SubscriptionStatus string
 
 /*Valid Subscription Statuses*/
 const (
-	ACTIVE = "ACTIVE"
-	PENDING = "PENDING"
+	ACTIVE    = "ACTIVE"
+	PENDING   = "PENDING"
 	CANCELLED = "CANCELLED"
-	INACTIVE = "INACTIVE"
+	INACTIVE  = "INACTIVE"
 )
