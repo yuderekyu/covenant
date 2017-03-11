@@ -1,20 +1,20 @@
 package router
 
 import (
-	"io"
 	"bytes"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/yuderekyu/covenant/models"
 
+	"github.com/pborman/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"gopkg.in/gin-gonic/gin.v1"
-	"github.com/pborman/uuid"
 )
 
 func TestSubscriptionNewSuccess(t *testing.T) {
@@ -25,14 +25,15 @@ func TestSubscriptionNewSuccess(t *testing.T) {
 	covenant, sMock := mockSubscription()
 	sMock.On("Insert", mock.AnythingOfType("*models.Subscription")).Return(nil)
 
-	// subscription := getDefaultSubscription()
 	userMock := uuid.NewUUID()
 	roasterMock := uuid.NewUUID()
 	itemMock := uuid.NewUUID()
 
-	s := getSubscriptionString(models.NewSubscription(userMock, "FREQUENCY", roasterMock, itemMock)) //make([]string)
-	recorder := httptest.NewRecorder() //records mutations for inspection
-	request, _ := http.NewRequest("POST", "/api/subscription",s)
+	s := getSubscriptionString(models.NewSubscription(userMock, "FREQUENCY", roasterMock, itemMock))
+
+	/*records mutations for inspection*/
+	recorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/subscription", s)
 	covenant.router.ServeHTTP(recorder, request)
 
 	assert.Equal(200, recorder.Code)
@@ -124,17 +125,13 @@ func TestSubscriptionGetByRoasterSuccess(t *testing.T) {
 	assert := assert.New(t)
 
 	gin.SetMode(gin.TestMode)
-	// userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID() 
-	// itemID := uuid.NewUUID()
-
-	// subscription := getSubscriptionString(models.NewSubscription(userID, "FREQUENCY", roasterID, itemID))
+	roasterID := uuid.NewUUID()
 
 	covenant, sMock := mockSubscription()
 	sMock.On("GetByRoaster", roasterID.String(), 0, 4).Return(make([]*models.Subscription, 0), nil)
 
 	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("GET", "/api/roaster/subscription/" + roasterID.String() +"?offset=0&limit=4", nil)
+	request, _ := http.NewRequest("GET", "/api/roaster/subscription/"+roasterID.String()+"?offset=0&limit=4", nil)
 	covenant.router.ServeHTTP(recorder, request)
 
 	assert.Equal(200, recorder.Code)
@@ -144,17 +141,13 @@ func TestSubscriptionGetByRoasterFail(t *testing.T) {
 	assert := assert.New(t)
 
 	gin.SetMode(gin.TestMode)
-	// userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID() 
-	// itemID := uuid.NewUUID()
-
-	// subscription := getSubscriptionString(models.NewSubscription(userID, "10/01/10", roasterID, itemID))
+	roasterID := uuid.NewUUID()
 
 	covenant, sMock := mockSubscription()
 	sMock.On("GetByRoaster", roasterID.String(), 0, 4).Return(make([]*models.Subscription, 0), fmt.Errorf("error"))
 
 	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("GET", "/api/roaster/subscription/" + roasterID.String() + "?offset=0&limit=4", nil)
+	request, _ := http.NewRequest("GET", "/api/roaster/subscription/"+roasterID.String()+"?offset=0&limit=4", nil)
 	covenant.router.ServeHTTP(recorder, request)
 
 	assert.Equal(500, recorder.Code)
@@ -165,16 +158,12 @@ func TestSubscriptionGetByUserSuccess(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 	userID := uuid.NewUUID()
-	// roasterID := uuid.NewUUID() 
-	// itemID := uuid.NewUUID()
-
-	// subscription := getSubscriptionString(models.NewSubscription(userID, "10/01/10", roasterID, itemID))
 
 	covenant, sMock := mockSubscription()
 	sMock.On("GetByUser", userID.String(), 0, 4).Return(make([]*models.Subscription, 0), nil)
 
 	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("GET", "/api/user/subscription/" + userID.String() +"?offset=0&limit=4", nil)
+	request, _ := http.NewRequest("GET", "/api/user/subscription/"+userID.String()+"?offset=0&limit=4", nil)
 	covenant.router.ServeHTTP(recorder, request)
 
 	assert.Equal(200, recorder.Code)
@@ -185,16 +174,12 @@ func TestSubscriptionGetByUserFail(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 	userID := uuid.NewUUID()
-	// roasterID := uuid.NewUUID() 
-	// itemID := uuid.NewUUID()
-
-	// subscription := getSubscriptionString(models.NewSubscription(userID, "10/01/10", roasterID, itemID))
 
 	covenant, sMock := mockSubscription()
 	sMock.On("GetByUser", userID.String(), 0, 4).Return(make([]*models.Subscription, 0), fmt.Errorf("error"))
 
 	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("GET", "/api/user/subscription/" + userID.String() +"?offset=0&limit=4", nil)
+	request, _ := http.NewRequest("GET", "/api/user/subscription/"+userID.String()+"?offset=0&limit=4", nil)
 	covenant.router.ServeHTTP(recorder, request)
 
 	assert.Equal(500, recorder.Code)
@@ -205,7 +190,7 @@ func TestSubscriptionUpdateSuccess(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 	userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID() 
+	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
 
 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
@@ -216,7 +201,7 @@ func TestSubscriptionUpdateSuccess(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
-			getSubscriptionString(subscription),)
+		getSubscriptionString(subscription))
 
 	covenant.router.ServeHTTP(recorder, request)
 
@@ -228,7 +213,7 @@ func TestSubscriptionUpdateFail(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 	userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID() 
+	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
 
 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
@@ -239,7 +224,7 @@ func TestSubscriptionUpdateFail(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
-			getSubscriptionString(subscription),)
+		getSubscriptionString(subscription))
 
 	covenant.router.ServeHTTP(recorder, request)
 
@@ -251,7 +236,7 @@ func TestSubscriptionDeleteSuccess(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 	userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID() 
+	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
 
 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
@@ -260,7 +245,7 @@ func TestSubscriptionDeleteSuccess(t *testing.T) {
 	sMock.On("Delete", subscription.ID.String()).Return(nil)
 
 	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("DELETE", "/api/subscription/" + subscription.ID.String(), nil)
+	request, _ := http.NewRequest("DELETE", "/api/subscription/"+subscription.ID.String(), nil)
 
 	covenant.router.ServeHTTP(recorder, request)
 
@@ -272,7 +257,7 @@ func TestUserDeleteFail(t *testing.T) {
 
 	gin.SetMode(gin.TestMode)
 	userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID() 
+	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
 
 	subscription := models.NewSubscription(userID, "01/01/01", roasterID, itemID)
@@ -281,7 +266,7 @@ func TestUserDeleteFail(t *testing.T) {
 	sMock.On("Delete", subscription.ID.String()).Return(fmt.Errorf("error"))
 
 	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("DELETE", "/api/subscription/" + subscription.ID.String(), nil)
+	request, _ := http.NewRequest("DELETE", "/api/subscription/"+subscription.ID.String(), nil)
 
 	covenant.router.ServeHTTP(recorder, request)
 
@@ -292,14 +277,3 @@ func getSubscriptionString(m *models.Subscription) io.Reader {
 	s, _ := json.Marshal(m) //convert to json
 	return bytes.NewReader(s)
 }
-
-// func getDefaultSubscription() *models.Subscription {
-// 	return &models.Subscription{
-// 		ID: uuid.NewUUID(),
-// 		UserID: uuid.NewUUID(),
-// 		CreatedAt: time.Now(),
-// 		StartAt: "test",
-// 		RoasterID: uuid.NewUUID(),
-// 		ItemID: uuid.NewUUID(),
-// 	}
-// }

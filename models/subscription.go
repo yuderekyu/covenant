@@ -33,7 +33,7 @@ func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, it
 		ID:        uuid.NewUUID(),
 		UserID:    userID,
 		Status:    ACTIVE,
-		CreatedAt: time.Now(),
+		CreatedAt: time.Now().UTC(),
 		Frequency: frequency,
 		RoasterID: roasterID,
 		ItemID:    itemID,
