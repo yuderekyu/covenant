@@ -489,6 +489,39 @@
 		{
 			"ImportPath": "gopkg.in/yaml.v2",
 			"Rev": "a5b47d31c556af34a302ce5d659e6fea44d90de0"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/vendor/github.com/go-ini/ini",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/vendor/github.com/jmespath/go-jmespath",
+			"Comment": "v1.7.6-1-g37f127c",
+			"Rev": "37f127c188d13d8cbdd1abc6969ab33a79ecaa38"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"Comment": "v1.1.4-6-g18a02ba",
+			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"Comment": "v1.1.4-6-g18a02ba",
+			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/stretchr/objx",
+			"Comment": "v1.1.4-6-g18a02ba",
+			"Rev": "18a02ba4a312f95da08ff4cfc0055750ce50ae9e"
+		},
+		{
+			"ImportPath": "github.com/yuderekyu/covenant/gateways",
+			"Rev": "6b08b8fb4a298801928d0f644ed0837535c0657a"
+		},
+		{
+			"ImportPath": "github.com/yuderekyu/covenant/models",
+			"Rev": "6b08b8fb4a298801928d0f644ed0837535c0657a"
 		}
 	]
 }
