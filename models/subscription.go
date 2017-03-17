@@ -15,15 +15,15 @@ type Subscription struct {
 	Status    SubscriptionStatus `json:"status"`
 	CreatedAt time.Time          `json:"createdAt"`
 	Frequency string             `json:"frequency"`
-	RoasterID uuid.UUID          `json: "roasterID"`
-	ItemID    uuid.UUID          `json: "itemID"`
+	RoasterID uuid.UUID          `json: "roasterId"`
+	ItemID    uuid.UUID          `json: "itemId"`
 }
 
 /*RequestIdentifiers represents the data needed from other services to create a subscription entry*/
 type RequestIdentifiers struct {
 	UserID    uuid.UUID `json: "userId" binding: "required"`
-	Frequency string    `json:"frequency" binding: "required"`
-	RoasterID uuid.UUID `json : "roasterId" binding: "required"`
+	Frequency string    `json: "frequency" binding: "required"`
+	RoasterID uuid.UUID `json: "roasterId" binding: "required"`
 	ItemID    uuid.UUID `json: "itemId" binding: "required"`
 }
 
@@ -33,7 +33,7 @@ func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, it
 		ID:        uuid.NewUUID(),
 		UserID:    userID,
 		Status:    ACTIVE,
-		CreatedAt: time.Now().UTC(),
+		CreatedAt: time.Now(),
 		Frequency: frequency,
 		RoasterID: roasterID,
 		ItemID:    itemID,
