@@ -10,21 +10,21 @@ import (
 
 /*Subscription is the representation of subscription entries in covenant*/
 type Subscription struct {
-	ID        uuid.UUID          `json: "id"`
-	UserID    uuid.UUID          `json: "userId"`
+	ID        uuid.UUID          `json:"id"`
+	UserID    uuid.UUID          `json:"userId"`
 	Status    SubscriptionStatus `json:"status"`
 	CreatedAt time.Time          `json:"createdAt"`
 	Frequency string             `json:"frequency"`
-	RoasterID uuid.UUID          `json: "roasterId"`
-	ItemID    uuid.UUID          `json: "itemId"`
+	RoasterID uuid.UUID          `json:"roasterId"`
+	ItemID    uuid.UUID          `json:"itemId"`
 }
 
 /*RequestIdentifiers represents the data needed from other services to create a subscription entry*/
 type RequestIdentifiers struct {
-	UserID    uuid.UUID `json: "userId" binding: "required"`
-	Frequency string    `json: "frequency" binding: "required"`
-	RoasterID uuid.UUID `json: "roasterId" binding: "required"`
-	ItemID    uuid.UUID `json: "itemId" binding: "required"`
+	UserID    uuid.UUID `json:"userId" binding:"required"`
+	Frequency string    `json:"frequency" binding:"required"`
+	RoasterID uuid.UUID `json:"roasterId" binding:"required"`
+	ItemID    uuid.UUID `json:"itemId" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/

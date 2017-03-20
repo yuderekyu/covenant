@@ -195,14 +195,13 @@ func TestSubscriptionUpdateSuccess(t *testing.T) {
 
 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
 	id := subscription.ID
-
+	fmt.Printf("\nCreatedAt: %s\n", subscription.CreatedAt)
 	covenant, sMock := mockSubscription()
 	sMock.On("Update", id.String(), subscription).Return(nil)
 
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
 		getSubscriptionString(subscription))
-
 	covenant.router.ServeHTTP(recorder, request)
 
 	assert.Equal(200, recorder.Code)
