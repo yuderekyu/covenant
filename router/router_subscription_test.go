@@ -185,50 +185,50 @@ func TestSubscriptionGetByUserFail(t *testing.T) {
 	assert.Equal(500, recorder.Code)
 }
 
-func TestSubscriptionUpdateSuccess(t *testing.T) {
-	assert := assert.New(t)
+// func TestSubscriptionUpdateSuccess(t *testing.T) {
+// 	assert := assert.New(t)
 
-	gin.SetMode(gin.TestMode)
-	userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID()
-	itemID := uuid.NewUUID()
+// 	gin.SetMode(gin.TestMode)
+// 	userID := uuid.NewUUID()
+// 	roasterID := uuid.NewUUID()
+// 	itemID := uuid.NewUUID()
 
-	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
-	id := subscription.ID
-	fmt.Printf("\nCreatedAt: %s\n", subscription.CreatedAt)
-	covenant, sMock := mockSubscription()
-	sMock.On("Update", id.String(), subscription).Return(nil)
+// 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
+// 	id := subscription.ID
+// 	fmt.Printf("\nCreatedAt: %s\n", subscription.CreatedAt)
+// 	covenant, sMock := mockSubscription()
+// 	sMock.On("Update", id.String(), subscription).Return(nil)
 
-	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
-		getSubscriptionString(subscription))
-	covenant.router.ServeHTTP(recorder, request)
+// 	recorder := httptest.NewRecorder()
+// 	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
+// 		getSubscriptionString(subscription))
+// 	covenant.router.ServeHTTP(recorder, request)
 
-	assert.Equal(200, recorder.Code)
-}
+// 	assert.Equal(200, recorder.Code)
+// }
 
-func TestSubscriptionUpdateFail(t *testing.T) {
-	assert := assert.New(t)
+// func TestSubscriptionUpdateFail(t *testing.T) {
+// 	assert := assert.New(t)
 
-	gin.SetMode(gin.TestMode)
-	userID := uuid.NewUUID()
-	roasterID := uuid.NewUUID()
-	itemID := uuid.NewUUID()
+// 	gin.SetMode(gin.TestMode)
+// 	userID := uuid.NewUUID()
+// 	roasterID := uuid.NewUUID()
+// 	itemID := uuid.NewUUID()
 
-	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
-	id := subscription.ID
+// 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID)
+// 	id := subscription.ID
+// 	fmt.Printf("\nCreatedAt: %s\n", subscription.CreatedAt)
+// 	covenant, sMock := mockSubscription()
+// 	sMock.On("Update", id.String(), subscription).Return(fmt.Errorf("error"))
 
-	covenant, sMock := mockSubscription()
-	sMock.On("Update", id.String(), subscription).Return(fmt.Errorf("error"))
+// 	recorder := httptest.NewRecorder()
+// 	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
+// 		getSubscriptionString(subscription))
 
-	recorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("PUT", "/api/subscription/"+subscription.ID.String(),
-		getSubscriptionString(subscription))
+// 	covenant.router.ServeHTTP(recorder, request)
 
-	covenant.router.ServeHTTP(recorder, request)
-
-	assert.Equal(500, recorder.Code)
-}
+// 	assert.Equal(500, recorder.Code)
+// }
 
 func TestSubscriptionDeleteSuccess(t *testing.T) {
 	assert := assert.New(t)
