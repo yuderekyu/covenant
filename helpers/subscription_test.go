@@ -406,8 +406,7 @@ func getMockSubscription(s *sql.DB) *Subscription {
 func getDefaultSubscription() *models.Subscription {
 	userID := uuid.NewUUID()
 	roasterID := uuid.NewUUID()
-	itemID := uuid.NewUUID()
-	time := time.Now()
+	itemID := uuid.NewUUID() 
 
-	return models.NewSubscription(userID, time.String(), roasterID, itemID)
+	return models.NewSubscription(userID, "Frequency", roasterID, itemID)
 }
