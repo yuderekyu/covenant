@@ -41,7 +41,7 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse) *Subscr
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
 func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE id =?", id)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE id =?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 
 /*GetAll returns <limit> subscription entries from <offset> number*/
 func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided roasterID*/
 func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE roasterId=? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE roasterId=? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided userID*/
 func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error){
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId FROM subscription WHERE userId=? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId=? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 /*Insert adds the given subscription entry*/
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
-		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId) VALUE(?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId, quantity) VALUE(?, ?, ?, ?, ?, ?, ?, ?)",
 		subscription.ID,
 		subscription.UserID,
 		string(subscription.Status),
@@ -111,17 +111,19 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 		subscription.Frequency,
 		subscription.RoasterID,
 		subscription.ItemID,
+		subscription.Quantity,
 	)
 	return err
 }
 
 /*Update upserts the subscription with the given id*/
 func (s *Subscription) Update(id string, subscription *models.Subscription) error {
-	err := s.sql.Modify("UPDATE subscription SET status=?, frequency=?, roasterId=?, itemId=? WHERE id=?",
+	err := s.sql.Modify("UPDATE subscription SET status=?, frequency=?, roasterId=?, itemId=?, quantity=? WHERE id=?",
 		string(subscription.Status),
 		subscription.Frequency,
 		subscription.RoasterID,
 		subscription.ItemID,
+		subscription.Quantity,
 		id,
 	)
 	return err

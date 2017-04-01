@@ -33,7 +33,7 @@ type Subscription struct {
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	stats := ctx.Stats.Clone(statsd.Prefix("api.subscription"))
 	return &Subscription{
-		Subscription:      helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
+		Subscription: helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
 		BaseHandler: &handlers.BaseHandler{Stats: stats}, 
 	}
 }
@@ -48,7 +48,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	subscription := models.NewSubscription(json.UserID, json.Frequency, json.RoasterID, json.ItemID)
+	subscription := models.NewSubscription(json.UserID, json.Frequency, json.RoasterID, json.ItemID, json.Quantity)
 	err = s.Subscription.Insert(subscription)
 	if err != nil {
 		s.ServerError(ctx, err, json)

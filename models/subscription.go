@@ -17,18 +17,20 @@ type Subscription struct {
 	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
+	Quantity  int 				 `json:"quantity"`
 }
 
-/*RequestIdentifiers represents the data needed from other services to create a subscription entry*/
+/*RequestIdentifiers represents the data needed to create a new subscription entry*/
 type RequestIdentifiers struct {
 	UserID    uuid.UUID `json:"userId" binding:"required"`
 	Frequency string    `json:"frequency" binding:"required"`
 	RoasterID uuid.UUID `json:"roasterId" binding:"required"`
 	ItemID    uuid.UUID `json:"itemId" binding:"required"`
+	Quantity  int       `json:"quantity" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
-func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID) *Subscription {
+func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID, quantity int) *Subscription {
 	return &Subscription{
 		ID:        uuid.NewUUID(),
 		UserID:    userID,
@@ -37,6 +39,7 @@ func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, it
 		Frequency: frequency,
 		RoasterID: roasterID,
 		ItemID:    itemID,
+		Quantity:  quantity,
 	}
 }
 
@@ -47,7 +50,7 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	for rows.Next() {
 		s := &Subscription{}
 		var sStatus string
-		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID)
+		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID, &s.Quantity)
 
 		var ok bool
 		s.Status, ok = toSubscriptionType(sStatus)
