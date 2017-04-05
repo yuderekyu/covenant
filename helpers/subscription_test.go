@@ -48,7 +48,7 @@ func TestGetByIdSuccess(t *testing.T) {
 	assert.Equal(subscription.UserID, userID)
 	assert.EqualValues(subscription.Status, models.ACTIVE)
 	assert.Equal(subscription.CreatedAt, time)
-	// assert.Equal(subscription.Frequency, cmodels.Frequency("MONTHLY"))
+	assert.Equal(subscription.Frequency, cmodels.Frequency("MONTHLY"))
 	assert.Equal(subscription.RoasterID, roasterID)
 	assert.Equal(subscription.ItemID, itemID)
 	assert.Equal(subscription.Quantity, quantity)
