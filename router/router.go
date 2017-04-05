@@ -9,6 +9,7 @@ import (
 	"github.com/ghmeier/bloodlines/config"
 	"github.com/ghmeier/bloodlines/gateways"
 	h "github.com/ghmeier/bloodlines/handlers"
+	cg "github.com/ghmeier/coinage/gateways"
 	tcg "github.com/jakelong95/TownCenter/gateways"
 	whg "github.com/lcollin/warehouse/gateways"
 	"github.com/yuderekyu/covenant/handlers"
@@ -37,6 +38,7 @@ func New(config *config.Root) (*Subscription, error) {
 
 	towncenter := tcg.NewTownCenter(config.TownCenter)
 	warehouse := whg.NewWarehouse(config.Warehouse)
+	coinage := cg.NewCoinage(config.Coinage)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -46,6 +48,7 @@ func New(config *config.Root) (*Subscription, error) {
 		Sql:        sql,
 		TownCenter: towncenter,
 		Warehouse:  warehouse,
+		Coinage:    coinage,
 		Stats:      stats,
 	}
 

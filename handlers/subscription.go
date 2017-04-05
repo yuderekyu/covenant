@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/pborman/uuid"
 	"gopkg.in/alexcesaro/statsd.v2"
 	"gopkg.in/gin-gonic/gin.v1"
@@ -57,12 +55,12 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	err = s.Subscription.Subscribe(subscription.ID, subscription.RoasterID, subscription.ItemID, subscription.Frequency)
+	err = s.Subscription.Subscribe(subscription.UserID, subscription.RoasterID, subscription.ItemID, subscription.Frequency)
 	if err != nil {
 		s.ServerError(ctx, err, json)
-		fmt.Printf("Subscribe error")
 		return
 	}
+	//Create order with warehouse
 
 	s.Success(ctx, subscription)
 }

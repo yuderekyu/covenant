@@ -51,16 +51,16 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	for rows.Next() {
 		s := &Subscription{}
 		var sStatus string
-		// var sFrequency sub.Frequency
+		var sFrequency sub.Frequency
 
-		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID, &s.Quantity)
+		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &sFrequency, &s.RoasterID, &s.ItemID, &s.Quantity)
 
 		var ok bool
 		s.Status, ok = toSubscriptionType(sStatus)
 		if !ok {
 			return nil, errors.New("invalid subscriptionStatus string")
 		}
-
+		s.Frequency = sFrequency
 		subscription = append(subscription, s)
 	}
 
