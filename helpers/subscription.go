@@ -16,7 +16,7 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
-	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, sub.Frequency) error
+	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
@@ -46,8 +46,10 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 }
 
 /*Subscribe calls Coinage Suscribe method to create a new subscription*/
-func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency sub.Frequency) error {
-	subscriptionRequest := sub.NewSubscribeRequest(roasterID, itemID, frequency)
+func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string) error {
+	//change string to Frequency enum
+	newFreq := sub.Frequency(frequency)
+	subscriptionRequest := sub.NewSubscribeRequest(roasterID, itemID, newFreq)
 	err := s.Coinage.NewSubscription(id, subscriptionRequest)
 	return err
 }

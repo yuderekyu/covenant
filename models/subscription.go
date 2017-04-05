@@ -5,7 +5,6 @@ import (
 	"errors"
 	"time"
 
-	sub "github.com/ghmeier/coinage/models"
 	"github.com/pborman/uuid"
 )
 
@@ -15,7 +14,7 @@ type Subscription struct {
 	UserID    uuid.UUID          `json:"userId"`
 	Status    SubscriptionStatus `json:"status"`
 	CreatedAt time.Time          `json:"createdAt"`
-	Frequency sub.Frequency      `json:"frequency"`
+	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
 	Quantity  int                `json:"quantity"`
@@ -23,15 +22,15 @@ type Subscription struct {
 
 /*RequestIdentifiers represents the data needed to create a new subscription entry*/
 type RequestIdentifiers struct {
-	UserID    uuid.UUID     `json:"userId" binding:"required"`
-	Frequency sub.Frequency `json:"frequency" binding:"required"`
-	RoasterID uuid.UUID     `json:"roasterId" binding:"required"`
-	ItemID    uuid.UUID     `json:"itemId" binding:"required"`
-	Quantity  int           `json:"quantity" binding:"required"`
+	UserID    uuid.UUID `json:"userId" binding:"required"`
+	Frequency string    `json:"frequency" binding:"required"`
+	RoasterID uuid.UUID `json:"roasterId" binding:"required"`
+	ItemID    uuid.UUID `json:"itemId" binding:"required"`
+	Quantity  int       `json:"quantity" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
-func NewSubscription(userID uuid.UUID, frequency sub.Frequency, roasterID uuid.UUID, itemID uuid.UUID, quantity int) *Subscription {
+func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID, quantity int) *Subscription {
 	return &Subscription{
 		ID:        uuid.NewUUID(),
 		UserID:    userID,
@@ -51,16 +50,14 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	for rows.Next() {
 		s := &Subscription{}
 		var sStatus string
-		var sFrequency sub.Frequency
 
-		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &sFrequency, &s.RoasterID, &s.ItemID, &s.Quantity)
+		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID, &s.Quantity)
 
 		var ok bool
 		s.Status, ok = toSubscriptionType(sStatus)
 		if !ok {
 			return nil, errors.New("invalid subscriptionStatus string")
 		}
-		s.Frequency = sFrequency
 		subscription = append(subscription, s)
 	}
 
