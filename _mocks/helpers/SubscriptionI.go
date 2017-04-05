@@ -1,7 +1,5 @@
 package mocks
 
-import coinagemodels "github.com/ghmeier/coinage/models"
-
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/yuderekyu/covenant/models"
 import uuid "github.com/pborman/uuid"
@@ -146,11 +144,11 @@ func (_m *SubscriptionI) SetStatus(_a0 string, _a1 models.SubscriptionStatus) er
 }
 
 // Subscribe provides a mock function with given fields: _a0, _a1, _a2, _a3
-func (_m *SubscriptionI) Subscribe(_a0 uuid.UUID, _a1 uuid.UUID, _a2 uuid.UUID, _a3 coinagemodels.Frequency) error {
+func (_m *SubscriptionI) Subscribe(_a0 uuid.UUID, _a1 uuid.UUID, _a2 uuid.UUID, _a3 string) error {
 	ret := _m.Called(_a0, _a1, _a2, _a3)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(uuid.UUID, uuid.UUID, uuid.UUID, coinagemodels.Frequency) error); ok {
+	if rf, ok := ret.Get(0).(func(uuid.UUID, uuid.UUID, uuid.UUID, string) error); ok {
 		r0 = rf(_a0, _a1, _a2, _a3)
 	} else {
 		r0 = ret.Error(0)

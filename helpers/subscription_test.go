@@ -8,7 +8,6 @@ import (
 
 	"github.com/ghmeier/bloodlines/gateways"
 	cmocks "github.com/ghmeier/coinage/_mocks/gateways"
-	cmodels "github.com/ghmeier/coinage/models"
 	tmocks "github.com/jakelong95/TownCenter/_mocks"
 	wmocks "github.com/lcollin/warehouse/_mocks/gateways"
 	"github.com/yuderekyu/covenant/models"
@@ -48,7 +47,7 @@ func TestGetByIdSuccess(t *testing.T) {
 	assert.Equal(subscription.UserID, userID)
 	assert.EqualValues(subscription.Status, models.ACTIVE)
 	assert.Equal(subscription.CreatedAt, time)
-	assert.Equal(subscription.Frequency, cmodels.Frequency("MONTHLY"))
+	assert.Equal(subscription.Frequency, "MONTHLY")
 	assert.Equal(subscription.RoasterID, roasterID)
 	assert.Equal(subscription.ItemID, itemID)
 	assert.Equal(subscription.Quantity, quantity)
