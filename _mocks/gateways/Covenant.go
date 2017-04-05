@@ -1,6 +1,5 @@
 package mocks
 
-import gateways "github.com/yuderekyu/covenant/gateways"
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/yuderekyu/covenant/models"
 import uuid "github.com/pborman/uuid"
@@ -116,13 +115,13 @@ func (_m *Covenant) GetSubscriptionByUser(userID uuid.UUID, offset int, limit in
 	return r0, r1
 }
 
-// NewSubscription provides a mock function with given fields: newSubscription
-func (_m *Covenant) NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error) {
-	ret := _m.Called(newSubscription)
+// NewSubscription provides a mock function with given fields: request
+func (_m *Covenant) NewSubscription(request *models.Subscription) (*models.Subscription, error) {
+	ret := _m.Called(request)
 
 	var r0 *models.Subscription
 	if rf, ok := ret.Get(0).(func(*models.Subscription) *models.Subscription); ok {
-		r0 = rf(newSubscription)
+		r0 = rf(request)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*models.Subscription)
@@ -131,7 +130,7 @@ func (_m *Covenant) NewSubscription(newSubscription *models.Subscription) (*mode
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(*models.Subscription) error); ok {
-		r1 = rf(newSubscription)
+		r1 = rf(request)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -161,5 +160,3 @@ func (_m *Covenant) UpdateSubscription(id uuid.UUID) (*models.Subscription, erro
 
 	return r0, r1
 }
-
-var _ gateways.Covenant = (*Covenant)(nil)
