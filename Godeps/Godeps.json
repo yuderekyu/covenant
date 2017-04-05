@@ -328,7 +328,7 @@
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/gateways",
-			"Rev": "ff7cc05d4a315f86bdf6d607f56b69fc881fef61"
+			"Rev": "42b32c54c8f83bfc07db0eeceb844bd4b80c11f6"
 		},
 		{
 			"ImportPath": "github.com/stripe/stripe-go/client",
@@ -337,7 +337,7 @@
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/models",
-			"Rev": "ff7cc05d4a315f86bdf6d607f56b69fc881fef61"
+			"Rev": "42b32c54c8f83bfc07db0eeceb844bd4b80c11f6"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-isatty",
