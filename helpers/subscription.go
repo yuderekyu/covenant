@@ -2,9 +2,12 @@ package helpers
 
 import (
 	"github.com/ghmeier/bloodlines/gateways"
+	c "github.com/ghmeier/coinage/gateways"
+	sub "github.com/ghmeier/coinage/models"
+	t "github.com/jakelong95/TownCenter/gateways"
+	w "github.com/lcollin/warehouse/gateways"
+	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/models"
-	t"github.com/jakelong95/TownCenter/gateways"
-	w"github.com/lcollin/warehouse/gateways"
 )
 
 type baseHelper struct {
@@ -13,6 +16,7 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
+	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
@@ -27,16 +31,27 @@ type SubscriptionI interface {
 type Subscription struct {
 	*baseHelper
 	TownCenter t.TownCenterI
-	Warehouse w.Warehouse
+	Warehouse  w.Warehouse
+	Coinage    c.Coinage
 }
 
 /*NewSubscription returns a new Subscription helper*/
-func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse) *Subscription {
+func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.Coinage) *Subscription {
 	return &Subscription{
 		baseHelper: &baseHelper{sql: sql},
 		TownCenter: tc,
-		Warehouse: wh,
+		Warehouse:  wh,
+		Coinage:    coin,
 	}
+}
+
+/*Subscribe calls Coinage Suscribe method to create a new subscription*/
+func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string) error {
+	//change string to Frequency enum
+	newFreq := sub.Frequency(frequency)
+	subscriptionRequest := sub.NewSubscribeRequest(roasterID, itemID, newFreq)
+	err := s.Coinage.NewSubscription(id, subscriptionRequest)
+	return err
 }
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
@@ -51,10 +66,10 @@ func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 		return nil, err
 	}
 
-	if(len(subscription) == 0) {
+	if len(subscription) == 0 {
 		return nil, nil
 	}
-	
+
 	return subscription[0], err
 }
 
@@ -87,7 +102,7 @@ func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]
 }
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided userID*/
-func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error){
+func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error) {
 	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId=? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
 	if err != nil {
 		return nil, err
@@ -108,7 +123,7 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 		subscription.UserID,
 		string(subscription.Status),
 		subscription.CreatedAt,
-		subscription.Frequency,
+		string(subscription.Frequency),
 		subscription.RoasterID,
 		subscription.ItemID,
 		subscription.Quantity,
@@ -120,7 +135,7 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 func (s *Subscription) Update(id string, subscription *models.Subscription) error {
 	err := s.sql.Modify("UPDATE subscription SET status=?, frequency=?, roasterId=?, itemId=?, quantity=? WHERE id=?",
 		string(subscription.Status),
-		subscription.Frequency,
+		string(subscription.Frequency),
 		subscription.RoasterID,
 		subscription.ItemID,
 		subscription.Quantity,

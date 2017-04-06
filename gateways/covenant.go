@@ -13,7 +13,7 @@ import (
 
 /*Covenant wraps all methods of the covenant API*/
 type Covenant interface {
-	NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error)
+	NewSubscription(request *models.Subscription) (*models.Subscription, error)
 	GetAllSubscription(offset int, limit int) ([]*models.Subscription, error)
 	GetSubscriptionById(id uuid.UUID) (*models.Subscription, error)
 	GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, limit int) (*models.Subscription, error)
@@ -38,11 +38,11 @@ func NewCovenant(config config.Covenant) Covenant {
 }
 
 /*NewSubscription creates a new subscription*/
-func (c *covenant) NewSubscription(newSubscription *models.Subscription) (*models.Subscription, error) {
+func (c *covenant) NewSubscription(request *models.Subscription) (*models.Subscription, error) {
 	url := fmt.Sprintf("%ssubscription", c.url)
 
 	var subscription *models.Subscription
-	err := c.ServiceSend(http.MethodPost, url, newSubscription, subscription)
+	err := c.ServiceSend(http.MethodPost, url, request, subscription)
 	if err != nil {
 		return nil, err
 	}

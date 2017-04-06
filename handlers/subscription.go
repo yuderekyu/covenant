@@ -33,8 +33,8 @@ type Subscription struct {
 func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 	stats := ctx.Stats.Clone(statsd.Prefix("api.subscription"))
 	return &Subscription{
-		Subscription: helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse),	
-		BaseHandler: &handlers.BaseHandler{Stats: stats}, 
+		Subscription: helpers.NewSubscription(ctx.Sql, ctx.TownCenter, ctx.Warehouse, ctx.Coinage),
+		BaseHandler:  &handlers.BaseHandler{Stats: stats},
 	}
 }
 
@@ -55,6 +55,13 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	err = s.Subscription.Subscribe(subscription.UserID, subscription.RoasterID, subscription.ItemID, subscription.Frequency)
+	if err != nil {
+		s.ServerError(ctx, err, json)
+		return
+	}
+	//Create order with warehouse
+
 	s.Success(ctx, subscription)
 }
 
@@ -68,7 +75,7 @@ func (s *Subscription) View(ctx *gin.Context) {
 		return
 	}
 
-	if(subscription == nil) {
+	if subscription == nil {
 		s.UserError(ctx, "Error: Subscription does not exist", id)
 		return
 	}

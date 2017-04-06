@@ -17,7 +17,7 @@ type Subscription struct {
 	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
-	Quantity  int 				 `json:"quantity"`
+	Quantity  int                `json:"quantity"`
 }
 
 /*RequestIdentifiers represents the data needed to create a new subscription entry*/
@@ -50,6 +50,7 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 	for rows.Next() {
 		s := &Subscription{}
 		var sStatus string
+
 		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID, &s.Quantity)
 
 		var ok bool
