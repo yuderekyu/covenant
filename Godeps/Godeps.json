@@ -541,11 +541,11 @@
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/gateways",
-			"Rev": "1a791f88b03f15f7e0feda68079e0fa6bfb45b18"
+			"Rev": "b1e10a14aaa9da69e0fc31b9334b3ad63d123b3f"
 		},
 		{
 			"ImportPath": "github.com/yuderekyu/covenant/models",
-			"Rev": "1a791f88b03f15f7e0feda68079e0fa6bfb45b18"
+			"Rev": "b1e10a14aaa9da69e0fc31b9334b3ad63d123b3f"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin",

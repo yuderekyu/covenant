@@ -59,7 +59,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	_, err = s.Subscription.NewOrder(subscription.UserID, subscription.ID)
+	_, err = s.Subscription.NewOrder(subscription.UserID, subscription.ID, subscription.Quantity)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return

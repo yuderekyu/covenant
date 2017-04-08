@@ -48,8 +48,8 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 }
 
 /*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
-func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID) (*wareM.Order, error) {
-	order := wareM.NewOrder(userID, subscriptionID)
+func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity int) (*wareM.Order, error) {
+	order := wareM.NewOrder(userID, subscriptionID, quantity)
 	newOrder, err := s.Warehouse.NewOrder(order)
 	return newOrder, err
 }
