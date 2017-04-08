@@ -1,13 +1,12 @@
 package handlers
 
 import (
-	"github.com/pborman/uuid"
-	"gopkg.in/alexcesaro/statsd.v2"
-	"gopkg.in/gin-gonic/gin.v1"
-
 	"github.com/ghmeier/bloodlines/handlers"
+	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/helpers"
 	"github.com/yuderekyu/covenant/models"
+	"gopkg.in/alexcesaro/statsd.v2"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 /*SubscriptionI contains the methods for a subscription handler*/
@@ -40,7 +39,6 @@ func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 
 /*New adds the given subscription entry to the database*/
 func (s *Subscription) New(ctx *gin.Context) {
-
 	var json models.RequestIdentifiers
 	err := ctx.BindJSON(&json)
 	if err != nil {
@@ -60,7 +58,12 @@ func (s *Subscription) New(ctx *gin.Context) {
 		s.ServerError(ctx, err, json)
 		return
 	}
-	//Create order with warehouse
+
+	_, err = s.Subscription.NewOrder(subscription.UserID, subscription.ID)
+	if err != nil {
+		s.ServerError(ctx, err, json)
+		return
+	}
 
 	s.Success(ctx, subscription)
 }

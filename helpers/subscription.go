@@ -3,9 +3,10 @@ package helpers
 import (
 	"github.com/ghmeier/bloodlines/gateways"
 	c "github.com/ghmeier/coinage/gateways"
-	sub "github.com/ghmeier/coinage/models"
-	t "github.com/jakelong95/TownCenter/gateways"
 	w "github.com/lcollin/warehouse/gateways"
+	t "github.com/jakelong95/TownCenter/gateways"
+	coinM "github.com/ghmeier/coinage/models"
+	wareM "github.com/lcollin/warehouse/models"
 	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/models"
 )
@@ -16,6 +17,7 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
+	NewOrder(uuid.UUID, uuid.UUID) (*wareM.Order, error)
 	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
@@ -45,11 +47,17 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 	}
 }
 
-/*Subscribe calls Coinage Suscribe method to create a new subscription*/
+/*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
+func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID) (*wareM.Order, error) {
+	order := wareM.NewOrder(userID, subscriptionID)
+	newOrder, err := s.Warehouse.NewOrder(order)
+	return newOrder, err
+}
+
+/*Subscribe calls Coinage Suscribe function to create a new subscription*/
 func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string) error {
-	//change string to Frequency enum
-	newFreq := sub.Frequency(frequency)
-	subscriptionRequest := sub.NewSubscribeRequest(roasterID, itemID, newFreq)
+	newFreq := coinM.Frequency(frequency)
+	subscriptionRequest := coinM.NewSubscribeRequest(roasterID, itemID, newFreq)
 	err := s.Coinage.NewSubscription(id, subscriptionRequest)
 	return err
 }
