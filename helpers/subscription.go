@@ -23,6 +23,7 @@ type SubscriptionI interface {
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
 	GetByUser(string, int, int) ([]*models.Subscription, error)
+	GetByUserAndItem(userID string, itemID string) (*models.Subscription, error)
 	Insert(*models.Subscription) error
 	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error
@@ -121,6 +122,25 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 		return nil, err
 	}
 	return subscription, err
+}
+
+/*GetByUserAndItem returns the subscription entry corresponding to the provided userID and itemID*/
+func (s *Subscription) GetByUserAndItem(userID string, itemID string) (*models.Subscription, error) {
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId =?, itemId =?", userID, itemID)
+	if err != nil {
+		return nil, err
+	}
+
+	subscription, err := models.SubscriptionFromSql(rows)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(subscription) == 0 {
+		return nil, nil
+	}
+
+	return subscription[0], err
 }
 
 /*Insert adds the given subscription entry*/

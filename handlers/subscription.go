@@ -20,6 +20,7 @@ type SubscriptionI interface {
 	Delete(ctx *gin.Context)
 	Time() gin.HandlerFunc
 	GetJWT() gin.HandlerFunc
+	CreateOrder(ctx *gin.Context)
 }
 
 /*Subscription is the handler for all subscription api calls*/
@@ -39,7 +40,7 @@ func NewSubscription(ctx *handlers.GatewayContext) SubscriptionI {
 
 /*New adds the given subscription entry to the database*/
 func (s *Subscription) New(ctx *gin.Context) {
-	var json models.RequestIdentifiers
+	var json models.RequestSubscription
 	err := ctx.BindJSON(&json)
 	if err != nil {
 		s.UserError(ctx, "Error: unable to parse json", err)
@@ -159,4 +160,25 @@ func (s *Subscription) Delete(ctx *gin.Context) {
 		return
 	}
 	s.Success(ctx, nil)
+}
+
+/*CreateOrder creates an order through Warehouse*/
+func (s *Subscription) CreateOrder(ctx *gin.Context) {
+	var json models.RequestOrder
+	err := ctx.BindJSON(&json)
+	if err != nil {
+		s.UserError(ctx, "Error: unable to parse json", err)
+		return
+	}
+	sub, err := s.GetByUserAndItem(json.UserID, json.ItemID)
+	if err != nil {
+		s.ServerError(ctx, err, id)
+		return
+	}
+	_, err = s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
+	if err != nil {
+		s.ServerError(ctx, err, json)
+		return
+	}
+
 }

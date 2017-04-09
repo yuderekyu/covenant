@@ -75,6 +75,7 @@ func InitRouter(s *Subscription) {
 		subscription.PUT("/subscription/:subscriptionId", s.subscription.Update)
 		subscription.DELETE("/subscription/:subscriptionId", s.subscription.Delete)
 
+		subscription.POST("/order", s.subscription.CreateOrder)
 		subscription.GET("/roaster/subscription/:roasterId", s.subscription.ViewByRoaster)
 		subscription.GET("/user/subscription/:userId", s.subscription.ViewByUser)
 	}

@@ -20,13 +20,19 @@ type Subscription struct {
 	Quantity  int                `json:"quantity"`
 }
 
-/*RequestIdentifiers represents the data needed to create a new subscription entry*/
-type RequestIdentifiers struct {
+/*RequestSubscription represents the data needed to create a new subscription entry*/
+type RequestSubscription struct {
 	UserID    uuid.UUID `json:"userId" binding:"required"`
 	Frequency string    `json:"frequency" binding:"required"`
 	RoasterID uuid.UUID `json:"roasterId" binding:"required"`
 	ItemID    uuid.UUID `json:"itemId" binding:"required"`
 	Quantity  int       `json:"quantity" binding:"required"`
+}
+
+/*RequestOrder represents the data sent from Coinage to create a new order entry wihin Warehouse*/
+type RequestOrder struct {
+	UserID uuid.UUID `json:"userId binding:"required"`
+	ItemID uuid.UUID `json:"itemId binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
