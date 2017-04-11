@@ -17,9 +17,9 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
-	NewOrder(uuid.UUID, uuid.UUID, int) (*wareM.Order, error)
+	NewOrder(uuid.UUID, uuid.UUID, uint64) (*wareM.Order, error)
 	GetByUserAndItem(userID string, itemID string) (*models.Subscription, error)
-	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string) error
+	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string, uint64) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
@@ -49,16 +49,16 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 }
 
 /*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
-func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity int) (*wareM.Order, error) {
-	order := wareM.NewOrder(userID, subscriptionID, quantity)
+func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity uint64) (*wareM.Order, error) {
+	order := wareM.NewOrder(userID, subscriptionID, int(quantity)) 
 	newOrder, err := s.Warehouse.NewOrder(order)
 	return newOrder, err
 }
 
-/*Subscribe calls Coinage Suscribe function to create a new subscription*/
-func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string) error {
+/*TODO add quantity to param Subscribe calls Coinage Suscribe function to create a new subscription*/
+func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string, quantity uint64) error {
 	newFreq := coinM.Frequency(frequency)
-	subscriptionRequest := coinM.NewSubscribeRequest(roasterID, itemID, newFreq)
+	subscriptionRequest := coinM.NewSubscribeRequest(roasterID, itemID, newFreq, quantity)
 	err := s.Coinage.NewSubscription(id, subscriptionRequest)
 	return err
 }
@@ -126,7 +126,7 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 
 /*GetByUserAndItem returns the subscription entry corresponding to the provided userID and itemID*/
 func (s *Subscription) GetByUserAndItem(userID string, itemID string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId =?, itemId =?", userID, itemID)
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId =? AND itemId =?", userID, itemID)
 	if err != nil {
 		return nil, err
 	}

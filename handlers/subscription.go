@@ -54,17 +54,17 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	err = s.Subscription.Subscribe(subscription.UserID, subscription.RoasterID, subscription.ItemID, subscription.Frequency)
+	err = s.Subscription.Subscribe(subscription.UserID, subscription.RoasterID, subscription.ItemID, subscription.Frequency, subscription.Quantity)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
 	}
 
-	_, err = s.Subscription.NewOrder(subscription.UserID, subscription.ID, subscription.Quantity)
-	if err != nil {
-		s.ServerError(ctx, err, json)
-		return
-	}
+	// _, err = s.Subscription.NewOrder(subscription.UserID, subscription.ID, subscription.Quantity)
+	// if err != nil {
+	// 	s.ServerError(ctx, err, json)
+	// 	return
+	// }
 
 	s.Success(ctx, subscription)
 }
@@ -175,10 +175,11 @@ func (s *Subscription) CreateOrder(ctx *gin.Context) {
 		s.ServerError(ctx, err, json) 
 		return 
 	}
-	_, err = s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
+	order, err := s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
 	}
+	s.Success(ctx, order)
 
 }
