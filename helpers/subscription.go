@@ -17,13 +17,13 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
-	NewOrder(uuid.UUID, uuid.UUID) (*wareM.Order, error)
+	NewOrder(uuid.UUID, uuid.UUID, int) (*wareM.Order, error)
+	GetByUserAndItem(userID string, itemID string) (*models.Subscription, error)
 	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
 	GetByUser(string, int, int) ([]*models.Subscription, error)
-	GetByUserAndItem(userID string, itemID string) (*models.Subscription, error)
 	Insert(*models.Subscription) error
 	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error

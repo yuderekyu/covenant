@@ -187,11 +187,6 @@
 			"Rev": "e80f713e08300c02f93c3cfda9f7d3d0cb608cbf"
 		},
 		{
-			"ImportPath": "github.com/gin-gonic/gin",
-			"Comment": "v1.1.4",
-			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"
-		},
-		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
 			"Comment": "v1.1.4",
 			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"
@@ -234,15 +229,15 @@
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/_mocks/gateways",
-			"Rev": "d180ea42a89c02bbd3c04040e383fbb4cc6a80db"
+			"Rev": "d03d36fe9239d6cb390f7aa2fe3e43fa41e63ecf"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/gateways",
-			"Rev": "d180ea42a89c02bbd3c04040e383fbb4cc6a80db"
+			"Rev": "d03d36fe9239d6cb390f7aa2fe3e43fa41e63ecf"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/models",
-			"Rev": "d180ea42a89c02bbd3c04040e383fbb4cc6a80db"
+			"Rev": "d03d36fe9239d6cb390f7aa2fe3e43fa41e63ecf"
 		},
 		{
 			"ImportPath": "github.com/manucorporat/sse",
@@ -496,8 +491,8 @@
 		},
 		{
 			"ImportPath": "gopkg.in/gin-contrib/cors.v1",
-			"Comment": "v1.2",
-			"Rev": "cf4846e6a636a76237a28d9286f163c132e841bc"
+			"Comment": "v1.1",
+			"Rev": "fb918bcd825b9e20f0c3c365981baf9454029b6c"
 		},
 		{
 			"ImportPath": "gopkg.in/gin-gonic/gin.v1",

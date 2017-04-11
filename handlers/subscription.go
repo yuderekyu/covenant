@@ -170,10 +170,10 @@ func (s *Subscription) CreateOrder(ctx *gin.Context) {
 		s.UserError(ctx, "Error: unable to parse json", err)
 		return
 	}
-	sub, err := s.GetByUserAndItem(json.UserID, json.ItemID)
-	if err != nil {
-		s.ServerError(ctx, err, id)
-		return
+	sub, err := s.Subscription.GetByUserAndItem(string(json.UserID), string(json.ItemID))
+	if err != nil { 
+		s.ServerError(ctx, err, json) 
+		return 
 	}
 	_, err = s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
 	if err != nil {
