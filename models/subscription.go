@@ -17,7 +17,7 @@ type Subscription struct {
 	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
-	Quantity  uint64                `json:"quantity"`
+	Quantity  uint64             `json:"quantity"`
 }
 
 /*RequestSubscription represents the data needed to create a new subscription entry*/
@@ -26,7 +26,7 @@ type RequestSubscription struct {
 	Frequency string    `json:"frequency" binding:"required"`
 	RoasterID uuid.UUID `json:"roasterId" binding:"required"`
 	ItemID    uuid.UUID `json:"itemId" binding:"required"`
-	Quantity  uint64       `json:"quantity" binding:"required"`
+	Quantity  uint64    `json:"quantity" binding:"required"`
 }
 
 /*RequestOrder represents the data needed to create a new order entry wihin Warehouse*/

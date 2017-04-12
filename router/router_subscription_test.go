@@ -48,7 +48,7 @@ func TestSubscriptionNewFail(t *testing.T) {
 	userMock := uuid.NewUUID()
 	roasterMock := uuid.NewUUID()
 	itemMock := uuid.NewUUID()
-	quantity := 1
+	quantity := uint64(1)
 
 	covenant, sMock := mockSubscription()
 	sMock.On("Insert", mock.AnythingOfType("*models.Subscription")).Return(fmt.Errorf("error"))
@@ -239,7 +239,7 @@ func TestSubscriptionDeleteSuccess(t *testing.T) {
 	userID := uuid.NewUUID()
 	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
-	quantity := 1
+	quantity := uint64(1)
 
 	subscription := models.NewSubscription(userID, "FREQUENCY", roasterID, itemID, quantity)
 
@@ -261,7 +261,7 @@ func TestUserDeleteFail(t *testing.T) {
 	userID := uuid.NewUUID()
 	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
-	quantity := 1
+	quantity := uint64(1)
 
 	subscription := models.NewSubscription(userID, "01/01/01", roasterID, itemID, quantity)
 

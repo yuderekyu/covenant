@@ -47,7 +47,7 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
-	//Check if customer already has subscription of said ItemID
+	//Check if user already has subscription with the specific ItemID
 	_, err = s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
 	if err != nil {
 		s.ServerError(ctx, err, json)
@@ -179,16 +179,17 @@ func (s *Subscription) CreateOrder(ctx *gin.Context) {
 		s.UserError(ctx, "Error: unable to parse json", err)
 		return
 	}
+	//check if subscription already exists
 	sub, err := s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
 	if err != nil { 
 		s.ServerError(ctx, err, json) 
 		return 
 	}
-	order, err := s.Subscription.NewOrder(json.UserID, json.ItemID, json.Quantity)
+	//TODO: pass itemID and add itemID to warehouse order struct	
+	order, err := s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
 	}
 	s.Success(ctx, order)
-
 }

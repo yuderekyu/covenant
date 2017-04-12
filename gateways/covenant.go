@@ -9,6 +9,7 @@ import (
 	"github.com/ghmeier/bloodlines/config"
 	g "github.com/ghmeier/bloodlines/gateways"
 	"github.com/yuderekyu/covenant/models"
+	wareM "github.com/lcollin/warehouse/models"
 )
 
 /*Covenant wraps all methods of the covenant API*/
@@ -20,6 +21,7 @@ type Covenant interface {
 	GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error)
 	UpdateSubscription(id uuid.UUID) (*models.Subscription, error)
 	DeleteSubscription(id uuid.UUID) error
+	NewOrder(request *models.RequestOrder) (*wareM.Order, error) 
 }
 
 /*covenant is the structure for the Covenant service*/
@@ -76,7 +78,7 @@ func (c *covenant) GetSubscriptionById(id uuid.UUID) (*models.Subscription, erro
 
 /*GetSubscriptionByRoaster returns a list of subscription of the given roasterID, with the offset and limit determining the entries and amount*/
 func (c *covenant) GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
-	url := fmt.Sprintf("%ssubscription/%s?offset=%d&limit=%d", c.url, roasterID.String(), offset, limit)
+	url := fmt.Sprintf("%sroaster/subscription/%s?offset=%d&limit=%d", c.url, roasterID.String(), offset, limit)
 
 	var subscription *models.Subscription
 	err := c.ServiceSend(http.MethodGet, url, nil, subscription)
@@ -88,7 +90,7 @@ func (c *covenant) GetSubscriptionByRoaster(roasterID uuid.UUID, offset int, lim
 
 /*GetSubscriptionByRoaster returns a list of subscription of the given userID, with the offset and limit determining the entries and amount*/
 func (c *covenant) GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error) {
-	url := fmt.Sprintf("%ssubscription/%s?offset=%d&limit=%d", c.url, userID.String(), offset, limit)
+	url := fmt.Sprintf("%suser/subscription/%s?offset=%d&limit=%d", c.url, userID.String(), offset, limit)
 
 	var subscription *models.Subscription
 	err := c.ServiceSend(http.MethodGet, url, nil, subscription)
@@ -119,4 +121,15 @@ func (c *covenant) DeleteSubscription(id uuid.UUID) error {
 		return err
 	}
 	return nil
+}
+
+func (c *covenant) NewOrder(request *models.RequestOrder) (*wareM.Order, error) {
+	url := fmt.Sprintf("%sorder", c.url)
+	var order *wareM.Order
+
+	err := c.ServiceSend(http.MethodPost, url, request, order)
+	if err != nil {
+		return nil, err
+	}
+	return order, nil
 }
