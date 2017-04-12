@@ -9,6 +9,11 @@ type SubscriptionI struct {
 	mock.Mock
 }
 
+// CreateOrder provides a mock function with given fields: ctx
+func (_m *SubscriptionI) CreateOrder(ctx *gin.Context) {
+	_m.Called(ctx)
+}
+
 // Delete provides a mock function with given fields: ctx
 func (_m *SubscriptionI) Delete(ctx *gin.Context) {
 	_m.Called(ctx)

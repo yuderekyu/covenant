@@ -235,3 +235,30 @@ DELETE localhost:8082/api/subscription/952e029f-f9fe-11e6-8253-0a002700001b
   "success": true
 }
 ```
+
+#### `POST /api/order` creates an order with the given userID and itemID
+
+Example:
+
+*Request:*
+```
+{
+"userId": "5afc1d5c-f562-11e6-a55c-0242ac130009",
+"itemId": "9d97b574-f487-11e6-bc64-92361f002671",
+"quantity": 1
+}
+```
+
+*Response:*
+```
+{
+  "id":"",
+  "userId":"",
+  "subscriptionId":"",
+  "requestDate":"",
+  "shipDate":"",
+  "quantity":"",
+  "status":"",
+  "labelUrl":""
+}
+```

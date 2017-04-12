@@ -3,11 +3,13 @@ package helpers
 import (
 	"github.com/ghmeier/bloodlines/gateways"
 	c "github.com/ghmeier/coinage/gateways"
-	sub "github.com/ghmeier/coinage/models"
-	t "github.com/jakelong95/TownCenter/gateways"
 	w "github.com/lcollin/warehouse/gateways"
+	t "github.com/jakelong95/TownCenter/gateways"
+	coinM "github.com/ghmeier/coinage/models"
+	wareM "github.com/lcollin/warehouse/models"
 	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/models"
+	"errors"
 )
 
 type baseHelper struct {
@@ -16,15 +18,18 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
-	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
 	GetByUser(string, int, int) ([]*models.Subscription, error)
+	GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*models.Subscription, error)
 	Insert(*models.Subscription) error
 	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error
 	Delete(string) error
+	NewOrder(uuid.UUID, uuid.UUID, uint64) (*wareM.Order, error)
+	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string, uint64) error
+	CheckCustomer(uuid.UUID) (*coinM.Customer, error)
 }
 
 /*Subscription is the helper for subscription entries*/
@@ -43,15 +48,6 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 		Warehouse:  wh,
 		Coinage:    coin,
 	}
-}
-
-/*Subscribe calls Coinage Suscribe method to create a new subscription*/
-func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string) error {
-	//change string to Frequency enum
-	newFreq := sub.Frequency(frequency)
-	subscriptionRequest := sub.NewSubscribeRequest(roasterID, itemID, newFreq)
-	err := s.Coinage.NewSubscription(id, subscriptionRequest)
-	return err
 }
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
@@ -115,6 +111,29 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 	return subscription, err
 }
 
+/*GetByUserAndItem checks if the subscription with the given userID and itemID exists; returns this subscription entry */
+func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*models.Subscription, error) {
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId=? AND itemId=?", userID.String(), itemID.String())
+	if err != nil {
+		return nil, err
+	}
+
+	subscription, err := models.SubscriptionFromSql(rows)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(subscription) == 0 {
+		return nil, errors.New("No subscriptions exist")
+	}
+
+	if len(subscription) > 1 {
+		return nil, errors.New("Subscription already exist for user")
+	}
+
+	return subscription[0], err
+}
+
 /*Insert adds the given subscription entry*/
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
@@ -154,4 +173,24 @@ func (s *Subscription) Delete(id string) error {
 func (s *Subscription) SetStatus(id string, status models.SubscriptionStatus) error {
 	err := s.sql.Modify("UPDATE subscription SET status=? WHERE id=?", string(status), id)
 	return err
+}
+
+/*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
+func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity uint64) (*wareM.Order, error) {
+	order := wareM.NewOrder(userID, subscriptionID, int(quantity)) 
+	newOrder, err := s.Warehouse.NewOrder(order)
+	return newOrder, err 
+}
+
+/*Subscribe calls Coinage Suscribe function to create a new subscription*/
+func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string, quantity uint64) error {
+	newFreq := coinM.Frequency(frequency)
+	subscriptionRequest := coinM.NewSubscribeRequest(roasterID, itemID, newFreq, quantity)
+	err := s.Coinage.NewSubscription(id, subscriptionRequest)
+	return err
+}
+/*CheckCustomer checks coinage if the specified customer account exists*/
+func (s *Subscription) CheckCustomer(id uuid.UUID) (*coinM.Customer, error) {
+	customer, err := s.Coinage.Customer(id)
+	return customer, err
 }

@@ -25,7 +25,7 @@ func TestGetByIdSuccess(t *testing.T) {
 	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
 	time := time.Now()
-	quantity := 1
+	quantity := uint64(1)
 
 	db, mock, err := sqlmock.New()
 	s := getMockSubscription(db)
@@ -415,7 +415,7 @@ func getDefaultSubscription() *models.Subscription {
 	userID := uuid.NewUUID()
 	roasterID := uuid.NewUUID()
 	itemID := uuid.NewUUID()
-	quantity := 1
+	quantity := uint64(1)
 
 	return models.NewSubscription(userID, "MONTHLY", roasterID, itemID, quantity)
 }

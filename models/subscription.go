@@ -17,20 +17,27 @@ type Subscription struct {
 	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
-	Quantity  int                `json:"quantity"`
+	Quantity  uint64             `json:"quantity"`
 }
 
-/*RequestIdentifiers represents the data needed to create a new subscription entry*/
-type RequestIdentifiers struct {
+/*RequestSubscription represents the data needed to create a new subscription entry*/
+type RequestSubscription struct {
 	UserID    uuid.UUID `json:"userId" binding:"required"`
 	Frequency string    `json:"frequency" binding:"required"`
 	RoasterID uuid.UUID `json:"roasterId" binding:"required"`
 	ItemID    uuid.UUID `json:"itemId" binding:"required"`
-	Quantity  int       `json:"quantity" binding:"required"`
+	Quantity  uint64    `json:"quantity" binding:"required"`
+}
+
+/*RequestOrder represents the data needed to create a new order entry wihin Warehouse*/
+type RequestOrder struct {
+	UserID uuid.UUID `json:"userId" binding:"required"`
+	ItemID uuid.UUID `json:"itemId" binding:"required"`
+	Quantity uint64 `json"quantity" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
-func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID, quantity int) *Subscription {
+func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, itemID uuid.UUID, quantity uint64) *Subscription {
 	return &Subscription{
 		ID:        uuid.NewUUID(),
 		UserID:    userID,
