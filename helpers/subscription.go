@@ -17,17 +17,18 @@ type baseHelper struct {
 
 /*SubscriptionI describes the functions for manipulating subscription models*/
 type SubscriptionI interface {
-	NewOrder(uuid.UUID, uuid.UUID, uint64) (*wareM.Order, error)
-	GetByUserAndItem(userID string, itemID string) (*models.Subscription, error)
-	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string, uint64) error
 	GetByID(string) (*models.Subscription, error)
 	GetAll(int, int) ([]*models.Subscription, error)
 	GetByRoaster(string, int, int) ([]*models.Subscription, error)
 	GetByUser(string, int, int) ([]*models.Subscription, error)
+	GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*models.Subscription, error)
 	Insert(*models.Subscription) error
 	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error
 	Delete(string) error
+	NewOrder(uuid.UUID, uuid.UUID, uint64) (*wareM.Order, error)
+	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string, uint64) error
+	CheckCustomer(uuid.UUID) (*coinM.Customer, error)
 }
 
 /*Subscription is the helper for subscription entries*/
@@ -46,21 +47,6 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 		Warehouse:  wh,
 		Coinage:    coin,
 	}
-}
-
-/*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
-func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity uint64) (*wareM.Order, error) {
-	order := wareM.NewOrder(userID, subscriptionID, int(quantity)) 
-	newOrder, err := s.Warehouse.NewOrder(order)
-	return newOrder, err
-}
-
-/*TODO add quantity to param Subscribe calls Coinage Suscribe function to create a new subscription*/
-func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string, quantity uint64) error {
-	newFreq := coinM.Frequency(frequency)
-	subscriptionRequest := coinM.NewSubscribeRequest(roasterID, itemID, newFreq, quantity)
-	err := s.Coinage.NewSubscription(id, subscriptionRequest)
-	return err
 }
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
@@ -125,8 +111,8 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 }
 
 /*GetByUserAndItem returns the subscription entry corresponding to the provided userID and itemID*/
-func (s *Subscription) GetByUserAndItem(userID string, itemID string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId =? AND itemId =?", userID, itemID)
+func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*models.Subscription, error) {
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId =? AND itemId =?", string(userID), string(itemID))
 	if err != nil {
 		return nil, err
 	}
@@ -182,4 +168,24 @@ func (s *Subscription) Delete(id string) error {
 func (s *Subscription) SetStatus(id string, status models.SubscriptionStatus) error {
 	err := s.sql.Modify("UPDATE subscription SET status=? WHERE id=?", string(status), id)
 	return err
+}
+
+/*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
+func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity uint64) (*wareM.Order, error) {
+	order := wareM.NewOrder(userID, subscriptionID, int(quantity)) 
+	newOrder, err := s.Warehouse.NewOrder(order)
+	return newOrder, err 
+}
+
+/*Subscribe calls Coinage Suscribe function to create a new subscription*/
+func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.UUID, frequency string, quantity uint64) error {
+	newFreq := coinM.Frequency(frequency)
+	subscriptionRequest := coinM.NewSubscribeRequest(roasterID, itemID, newFreq, quantity)
+	err := s.Coinage.NewSubscription(id, subscriptionRequest)
+	return err
+}
+/*CheckCustomer checks coinage if the specified customer account exists*/
+func (s Subscription) CheckCustomer(id uuid.UUID) (*coinM.Customer, error) {
+	customer, err := s.Coinage.Customer(id)
+	return customer, err
 }

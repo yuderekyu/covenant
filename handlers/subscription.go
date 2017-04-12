@@ -47,6 +47,14 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	//Check if customer account exists with Coinage
+	_, err = s.Subscription.CheckCustomer(json.UserID)
+	if err != nil {
+		s.ServerError(ctx, err, json.UserID)
+		return
+	}
+
+	//Create subscription within Covenant
 	subscription := models.NewSubscription(json.UserID, json.Frequency, json.RoasterID, json.ItemID, json.Quantity)
 	err = s.Subscription.Insert(subscription)
 	if err != nil {
@@ -54,17 +62,12 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	//Create subscription within Coinage
 	err = s.Subscription.Subscribe(subscription.UserID, subscription.RoasterID, subscription.ItemID, subscription.Frequency, subscription.Quantity)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
 	}
-
-	// _, err = s.Subscription.NewOrder(subscription.UserID, subscription.ID, subscription.Quantity)
-	// if err != nil {
-	// 	s.ServerError(ctx, err, json)
-	// 	return
-	// }
 
 	s.Success(ctx, subscription)
 }
@@ -170,16 +173,16 @@ func (s *Subscription) CreateOrder(ctx *gin.Context) {
 		s.UserError(ctx, "Error: unable to parse json", err)
 		return
 	}
-	sub, err := s.Subscription.GetByUserAndItem(string(json.UserID), string(json.ItemID))
+	sub, err := s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
 	if err != nil { 
 		s.ServerError(ctx, err, json) 
 		return 
 	}
-	order, err := s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
-	if err != nil {
-		s.ServerError(ctx, err, json)
-		return
-	}
-	s.Success(ctx, order)
+	// order, err := s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
+	// if err != nil {
+	// 	s.ServerError(ctx, err, json)
+	// 	return
+	// }
+	s.Success(ctx, sub)
 
 }
