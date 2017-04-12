@@ -176,15 +176,15 @@
 		},
 		{
 			"ImportPath": "github.com/ghmeier/coinage/_mocks/gateways",
-			"Rev": "e80f713e08300c02f93c3cfda9f7d3d0cb608cbf"
+			"Rev": "c19f6e6d1cc118422840e347c40c7a2fab263a8a"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/coinage/gateways",
-			"Rev": "e80f713e08300c02f93c3cfda9f7d3d0cb608cbf"
+			"Rev": "c19f6e6d1cc118422840e347c40c7a2fab263a8a"
 		},
 		{
 			"ImportPath": "github.com/ghmeier/coinage/models",
-			"Rev": "e80f713e08300c02f93c3cfda9f7d3d0cb608cbf"
+			"Rev": "c19f6e6d1cc118422840e347c40c7a2fab263a8a"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
@@ -229,15 +229,15 @@
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/_mocks/gateways",
-			"Rev": "d03d36fe9239d6cb390f7aa2fe3e43fa41e63ecf"
+			"Rev": "838475ea08e3fa6329609ee2126e600eb902de1d"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/gateways",
-			"Rev": "d03d36fe9239d6cb390f7aa2fe3e43fa41e63ecf"
+			"Rev": "838475ea08e3fa6329609ee2126e600eb902de1d"
 		},
 		{
 			"ImportPath": "github.com/lcollin/warehouse/models",
-			"Rev": "d03d36fe9239d6cb390f7aa2fe3e43fa41e63ecf"
+			"Rev": "838475ea08e3fa6329609ee2126e600eb902de1d"
 		},
 		{
 			"ImportPath": "github.com/manucorporat/sse",
@@ -507,6 +507,39 @@
 		{
 			"ImportPath": "gopkg.in/yaml.v2",
 			"Rev": "cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/vendor/github.com/go-ini/ini",
+			"Comment": "v1.8.11-1-g5b94aa6",
+			"Rev": "5b94aa6e6f14126d01fd9e8dcb44aed80512d4a3"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/vendor/github.com/jmespath/go-jmespath",
+			"Comment": "v1.8.11-1-g5b94aa6",
+			"Rev": "5b94aa6e6f14126d01fd9e8dcb44aed80512d4a3"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"Comment": "v1.1.4-27-g4d4bfba",
+			"Rev": "4d4bfba8f1d1027c4fdbe371823030df51419987"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"Comment": "v1.1.4-27-g4d4bfba",
+			"Rev": "4d4bfba8f1d1027c4fdbe371823030df51419987"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/vendor/github.com/stretchr/objx",
+			"Comment": "v1.1.4-27-g4d4bfba",
+			"Rev": "4d4bfba8f1d1027c4fdbe371823030df51419987"
+		},
+		{
+			"ImportPath": "github.com/yuderekyu/covenant/gateways",
+			"Rev": "71247dac8c8572d0182043d235209f5e83a34838"
+		},
+		{
+			"ImportPath": "github.com/yuderekyu/covenant/models",
+			"Rev": "71247dac8c8572d0182043d235209f5e83a34838"
 		}
 	]
 }
