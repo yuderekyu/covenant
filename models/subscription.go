@@ -31,8 +31,9 @@ type RequestSubscription struct {
 
 /*RequestOrder represents the data needed to create a new order entry wihin Warehouse*/
 type RequestOrder struct {
-	UserID uuid.UUID `json:"userId binding:"required"`
-	ItemID uuid.UUID `json:"itemId binding:"required"`
+	UserID uuid.UUID `json:"userId" binding:"required"`
+	ItemID uuid.UUID `json:"itemId" binding:"required"`
+	Quantity uint64 `json"quantity" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/

@@ -47,10 +47,16 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	//Check if customer already has subscription of said ItemID
+	_, err = s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
+	if err != nil {
+		s.ServerError(ctx, err, json)
+	}
+
 	//Check if customer account exists with Coinage
 	_, err = s.Subscription.CheckCustomer(json.UserID)
 	if err != nil {
-		s.ServerError(ctx, err, json.UserID)
+		s.ServerError(ctx, err, json)
 		return
 	}
 
@@ -178,11 +184,11 @@ func (s *Subscription) CreateOrder(ctx *gin.Context) {
 		s.ServerError(ctx, err, json) 
 		return 
 	}
-	// order, err := s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
-	// if err != nil {
-	// 	s.ServerError(ctx, err, json)
-	// 	return
-	// }
-	s.Success(ctx, sub)
+	order, err := s.Subscription.NewOrder(json.UserID, json.ItemID, json.Quantity)
+	if err != nil {
+		s.ServerError(ctx, err, json)
+		return
+	}
+	s.Success(ctx, order)
 
 }

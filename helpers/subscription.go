@@ -9,6 +9,7 @@ import (
 	wareM "github.com/lcollin/warehouse/models"
 	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/models"
+	"errors"
 )
 
 type baseHelper struct {
@@ -110,9 +111,9 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 	return subscription, err
 }
 
-/*GetByUserAndItem returns the subscription entry corresponding to the provided userID and itemID*/
+/*GetByUserAndItem checks if the subscription with the given userID and itemID exists; returns this subscription entry */
 func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId =? AND itemId =?", string(userID), string(itemID))
+	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId=? AND itemId=?", userID.String(), itemID.String())
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +124,11 @@ func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*mo
 	}
 
 	if len(subscription) == 0 {
-		return nil, nil
+		return nil, errors.New("No subscriptions exist")
+	}
+
+	if len(subscription) > 1 {
+		return nil, errors.New("Subscription already exist for user")
 	}
 
 	return subscription[0], err
@@ -185,7 +190,7 @@ func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.
 	return err
 }
 /*CheckCustomer checks coinage if the specified customer account exists*/
-func (s Subscription) CheckCustomer(id uuid.UUID) (*coinM.Customer, error) {
+func (s *Subscription) CheckCustomer(id uuid.UUID) (*coinM.Customer, error) {
 	customer, err := s.Coinage.Customer(id)
 	return customer, err
 }
