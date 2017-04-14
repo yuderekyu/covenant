@@ -33,7 +33,6 @@ type RequestSubscription struct {
 type RequestOrder struct {
 	UserID uuid.UUID `json:"userId" binding:"required"`
 	ItemID uuid.UUID `json:"itemId" binding:"required"`
-	Quantity uint64 `json"quantity" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
