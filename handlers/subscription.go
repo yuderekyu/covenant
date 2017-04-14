@@ -48,9 +48,13 @@ func (s *Subscription) New(ctx *gin.Context) {
 	}
 
 	//Check if user already has subscription with the specific ItemID
-	_, err = s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
+	subs, err := s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
 	if err != nil {
 		s.ServerError(ctx, err, json)
+		return
+	}
+	if subs != nil {
+		s.UserError(ctx, "Error: you've alread subscribed to this", nil)
 		return
 	}
 

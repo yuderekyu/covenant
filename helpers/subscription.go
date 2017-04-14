@@ -1,15 +1,15 @@
 package helpers
 
 import (
+	"errors"
 	"github.com/ghmeier/bloodlines/gateways"
 	c "github.com/ghmeier/coinage/gateways"
-	w "github.com/lcollin/warehouse/gateways"
-	t "github.com/jakelong95/TownCenter/gateways"
 	coinM "github.com/ghmeier/coinage/models"
+	t "github.com/jakelong95/TownCenter/gateways"
+	w "github.com/lcollin/warehouse/gateways"
 	wareM "github.com/lcollin/warehouse/models"
 	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/models"
-	"errors"
 )
 
 type baseHelper struct {
@@ -124,7 +124,7 @@ func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*mo
 	}
 
 	if len(subscription) == 0 {
-		return nil, errors.New("No subscriptions exist")
+		return nil, nil
 	}
 
 	if len(subscription) > 1 {
@@ -177,9 +177,9 @@ func (s *Subscription) SetStatus(id string, status models.SubscriptionStatus) er
 
 /*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
 func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity uint64) (*wareM.Order, error) {
-	order := wareM.NewOrder(userID, subscriptionID, int(quantity)) 
+	order := wareM.NewOrder(userID, subscriptionID, int(quantity))
 	newOrder, err := s.Warehouse.NewOrder(order)
-	return newOrder, err 
+	return newOrder, err
 }
 
 /*Subscribe calls Coinage Suscribe function to create a new subscription*/
@@ -189,6 +189,7 @@ func (s *Subscription) Subscribe(id uuid.UUID, roasterID uuid.UUID, itemID uuid.
 	err := s.Coinage.NewSubscription(id, subscriptionRequest)
 	return err
 }
+
 /*CheckCustomer checks coinage if the specified customer account exists*/
 func (s *Subscription) CheckCustomer(id uuid.UUID) (*coinM.Customer, error) {
 	customer, err := s.Coinage.Customer(id)
