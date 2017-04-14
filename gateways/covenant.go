@@ -8,8 +8,8 @@ import (
 
 	"github.com/ghmeier/bloodlines/config"
 	g "github.com/ghmeier/bloodlines/gateways"
-	"github.com/yuderekyu/covenant/models"
 	wareM "github.com/lcollin/warehouse/models"
+	"github.com/yuderekyu/covenant/models"
 )
 
 /*Covenant wraps all methods of the covenant API*/
@@ -21,7 +21,7 @@ type Covenant interface {
 	GetSubscriptionByUser(userID uuid.UUID, offset int, limit int) (*models.Subscription, error)
 	UpdateSubscription(id uuid.UUID) (*models.Subscription, error)
 	DeleteSubscription(id uuid.UUID) error
-	NewOrder(request *models.RequestOrder) (*wareM.Order, error) 
+	NewOrder(request *models.RequestOrder) (*wareM.Order, error)
 }
 
 /*covenant is the structure for the Covenant service*/
@@ -33,9 +33,16 @@ type covenant struct {
 
 /*NewCovenant creates and returns a Covenant struct which points to the service denoted in the config*/
 func NewCovenant(config config.Covenant) Covenant {
+	var url string
+	if config.Port != "" {
+		url = fmt.Sprintf("http://%s:%s/api/", config.Host, config.Port)
+	} else {
+		url = fmt.Sprintf("https://%s/api/", config.Host)
+	}
+
 	return &covenant{
 		BaseService: g.NewBaseService(),
-		url:         fmt.Sprintf("https://%s:%s/api/", config.Host, config.Port),
+		url:         url,
 	}
 }
 
