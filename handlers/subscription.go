@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+
 	"github.com/ghmeier/bloodlines/handlers"
 	"github.com/pborman/uuid"
 	"github.com/yuderekyu/covenant/helpers"
@@ -47,6 +49,8 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println("PARSED")
+
 	//Check if user already has subscription with the specific ItemID
 	subs, err := s.Subscription.GetByUserAndItem(json.UserID, json.ItemID)
 	if err != nil {
@@ -58,12 +62,16 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println("Got SUB")
+
 	//Check if customer account exists with Coinage
-	_, err = s.Subscription.CheckCustomer(json.UserID)
-	if err != nil {
+	customer, err := s.Subscription.CheckCustomer(json.UserID)
+	if err != nil || customer == nil {
 		s.UserError(ctx, "Please update your payment information before subscribing", nil)
 		return
 	}
+
+	fmt.Println("got customer")
 
 	//Create subscription within Covenant
 	subscription := models.NewSubscription(json.UserID, json.Frequency, json.RoasterID, json.ItemID, json.Quantity)
@@ -73,12 +81,16 @@ func (s *Subscription) New(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println("models got")
+
 	//Create subscription within Coinage
 	err = s.Subscription.Subscribe(subscription.UserID, subscription.RoasterID, subscription.ItemID, subscription.Frequency, subscription.Quantity)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
 	}
+
+	fmt.Println("subscribed")
 
 	s.Success(ctx, subscription)
 }
