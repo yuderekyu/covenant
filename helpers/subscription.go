@@ -12,6 +12,10 @@ import (
 	"github.com/yuderekyu/covenant/models"
 )
 
+const (
+	SELECT_ALL = "SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription"
+)
+
 type baseHelper struct {
 	sql gateways.SQL
 }
@@ -27,7 +31,7 @@ type SubscriptionI interface {
 	Update(string, *models.Subscription) error
 	SetStatus(string, models.SubscriptionStatus) error
 	Delete(string) error
-	NewOrder(uuid.UUID, uuid.UUID, uint64) (*wareM.Order, error)
+	NewOrder(*models.Subscription, *models.RequestOrder) (*wareM.Order, error)
 	Subscribe(uuid.UUID, uuid.UUID, uuid.UUID, string, uint64) error
 	CheckCustomer(uuid.UUID) (*coinM.Customer, error)
 }
@@ -52,7 +56,7 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
 func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE id =?", id)
+	rows, err := s.sql.Select(SELECT_ALL+" FROM subscription WHERE id =?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +75,7 @@ func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
 
 /*GetAll returns <limit> subscription entries from <offset> number*/
 func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription ORDER BY id ASC LIMIT ?,?", offset, limit)
+	rows, err := s.sql.Select(SELECT_ALL+" ORDER BY id ASC LIMIT ?,?", offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +89,7 @@ func (s *Subscription) GetAll(offset int, limit int) ([]*models.Subscription, er
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided roasterID*/
 func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE roasterId=? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
+	rows, err := s.sql.Select(SELECT_ALL+" WHERE roasterId=? ORDER BY id ASC LIMIT ?,?", roasterID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +103,7 @@ func (s *Subscription) GetByRoaster(roasterID string, offset int, limit int) ([]
 
 /*GetAll returns <limit> subscription entries from <offset> number referenced by provided userID*/
 func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId=? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
+	rows, err := s.sql.Select(SELECT_ALL+" WHERE userId=? ORDER BY id ASC LIMIT ?,?", userID, offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +117,7 @@ func (s *Subscription) GetByUser(userID string, offset int, limit int) ([]*model
 
 /*GetByUserAndItem checks if the subscription with the given userID and itemID exists; returns this subscription entry */
 func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*models.Subscription, error) {
-	rows, err := s.sql.Select("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription WHERE userId=? AND itemId=?", userID.String(), itemID.String())
+	rows, err := s.sql.Select(SELECT_ALL+" WHERE userId=? AND itemId=?", userID.String(), itemID.String())
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +141,7 @@ func (s *Subscription) GetByUserAndItem(userID uuid.UUID, itemID uuid.UUID) (*mo
 /*Insert adds the given subscription entry*/
 func (s *Subscription) Insert(subscription *models.Subscription) error {
 	err := s.sql.Modify(
-		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId, quantity) VALUE(?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO subscription (id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder) VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		subscription.ID,
 		subscription.UserID,
 		string(subscription.Status),
@@ -146,18 +150,20 @@ func (s *Subscription) Insert(subscription *models.Subscription) error {
 		subscription.RoasterID,
 		subscription.ItemID,
 		subscription.Quantity,
+		subscription.NextOrder,
 	)
 	return err
 }
 
 /*Update upserts the subscription with the given id*/
 func (s *Subscription) Update(id string, subscription *models.Subscription) error {
-	err := s.sql.Modify("UPDATE subscription SET status=?, frequency=?, roasterId=?, itemId=?, quantity=? WHERE id=?",
+	err := s.sql.Modify("UPDATE subscription SET status=?, frequency=?, roasterId=?, itemId=?, quantity=?, nextOrder=? WHERE id=?",
 		string(subscription.Status),
 		string(subscription.Frequency),
 		subscription.RoasterID,
 		subscription.ItemID,
 		subscription.Quantity,
+		subscription.NextOrder,
 		id,
 	)
 	return err
@@ -166,6 +172,7 @@ func (s *Subscription) Update(id string, subscription *models.Subscription) erro
 /*Delete removes the subscription with the given id*/
 func (s *Subscription) Delete(id string) error {
 	err := s.sql.Modify("DELETE FROM subscription where id=?", id)
+	// s.Coinage.DeleteSubscription()
 	return err
 }
 
@@ -176,9 +183,16 @@ func (s *Subscription) SetStatus(id string, status models.SubscriptionStatus) er
 }
 
 /*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
-func (s *Subscription) NewOrder(userID uuid.UUID, subscriptionID uuid.UUID, quantity uint64) (*wareM.Order, error) {
-	order := wareM.NewOrder(userID, subscriptionID, int(quantity))
+func (s *Subscription) NewOrder(sub *models.Subscription, req *models.RequestOrder) (*wareM.Order, error) {
+	order := wareM.NewOrder(sub.UserID, sub.ID, int(sub.Quantity))
 	newOrder, err := s.Warehouse.NewOrder(order)
+	if err != nil {
+		return nil, err
+	}
+
+	sub.Status = models.ACTIVE
+	sub.NextOrder = req.NextOrder
+	s.Update(sub.ID.String(), sub)
 	return newOrder, err
 }
 

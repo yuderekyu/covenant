@@ -1,7 +1,7 @@
 package mocks
 
 import covenantmodels "github.com/yuderekyu/covenant/models"
-
+import helpers "github.com/yuderekyu/covenant/helpers"
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/ghmeier/coinage/models"
 import uuid "github.com/pborman/uuid"
@@ -178,13 +178,13 @@ func (_m *SubscriptionI) Insert(_a0 *covenantmodels.Subscription) error {
 	return r0
 }
 
-// NewOrder provides a mock function with given fields: _a0, _a1, _a2
-func (_m *SubscriptionI) NewOrder(_a0 uuid.UUID, _a1 uuid.UUID, _a2 uint64) (*warehousemodels.Order, error) {
-	ret := _m.Called(_a0, _a1, _a2)
+// NewOrder provides a mock function with given fields: _a0, _a1
+func (_m *SubscriptionI) NewOrder(_a0 *covenantmodels.Subscription, _a1 *covenantmodels.RequestOrder) (*warehousemodels.Order, error) {
+	ret := _m.Called(_a0, _a1)
 
 	var r0 *warehousemodels.Order
-	if rf, ok := ret.Get(0).(func(uuid.UUID, uuid.UUID, uint64) *warehousemodels.Order); ok {
-		r0 = rf(_a0, _a1, _a2)
+	if rf, ok := ret.Get(0).(func(*covenantmodels.Subscription, *covenantmodels.RequestOrder) *warehousemodels.Order); ok {
+		r0 = rf(_a0, _a1)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*warehousemodels.Order)
@@ -192,8 +192,8 @@ func (_m *SubscriptionI) NewOrder(_a0 uuid.UUID, _a1 uuid.UUID, _a2 uint64) (*wa
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(uuid.UUID, uuid.UUID, uint64) error); ok {
-		r1 = rf(_a0, _a1, _a2)
+	if rf, ok := ret.Get(1).(func(*covenantmodels.Subscription, *covenantmodels.RequestOrder) error); ok {
+		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -242,3 +242,5 @@ func (_m *SubscriptionI) Update(_a0 string, _a1 *covenantmodels.Subscription) er
 
 	return r0
 }
+
+var _ helpers.SubscriptionI = (*SubscriptionI)(nil)

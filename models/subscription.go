@@ -14,6 +14,7 @@ type Subscription struct {
 	UserID    uuid.UUID          `json:"userId"`
 	Status    SubscriptionStatus `json:"status"`
 	CreatedAt time.Time          `json:"createdAt"`
+	NextOrder time.Time          `json:"time"`
 	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
@@ -31,9 +32,10 @@ type RequestSubscription struct {
 
 /*RequestOrder represents the data needed to create a new order entry wihin Warehouse*/
 type RequestOrder struct {
-	UserID uuid.UUID `json:"userId" binding:"required"`
-	ItemID uuid.UUID `json:"itemId" binding:"required"`
-	Quantity uint64 `json"quantity" binding:"required"`
+	UserID    uuid.UUID `json:"userId" binding:"required"`
+	ItemID    uuid.UUID `json:"itemId" binding:"required"`
+	NextOrder time.Time `json:"nextOrder" bindng:"required"`
+	Quantity  uint64    `json"quantity" binding:"required"`
 }
 
 /*NewSubscription creates a new subscription with a new uuid*/
@@ -41,7 +43,7 @@ func NewSubscription(userID uuid.UUID, frequency string, roasterID uuid.UUID, it
 	return &Subscription{
 		ID:        uuid.NewUUID(),
 		UserID:    userID,
-		Status:    ACTIVE,
+		Status:    PENDING,
 		CreatedAt: time.Now(),
 		Frequency: frequency,
 		RoasterID: roasterID,
@@ -58,7 +60,7 @@ func SubscriptionFromSql(rows *sql.Rows) ([]*Subscription, error) {
 		s := &Subscription{}
 		var sStatus string
 
-		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID, &s.Quantity)
+		rows.Scan(&s.ID, &s.UserID, &sStatus, &s.CreatedAt, &s.Frequency, &s.RoasterID, &s.ItemID, &s.Quantity, &s.NextOrder)
 
 		var ok bool
 		s.Status, ok = toSubscriptionType(sStatus)

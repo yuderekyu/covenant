@@ -191,7 +191,7 @@ func (s *Subscription) CreateOrder(ctx *gin.Context) {
 		return
 	}
 	//TODO: pass itemID and add itemID to warehouse order struct
-	order, err := s.Subscription.NewOrder(sub.UserID, sub.ID, sub.Quantity)
+	order, err := s.Subscription.NewOrder(sub, &json)
 	if err != nil {
 		s.ServerError(ctx, err, json)
 		return
