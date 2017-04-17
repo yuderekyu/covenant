@@ -56,7 +56,7 @@ func NewSubscription(sql gateways.SQL, tc t.TownCenterI, wh w.Warehouse, coin c.
 
 /*GetById returns the subscription referenced by provided id, otherwise nil*/
 func (s *Subscription) GetByID(id string) (*models.Subscription, error) {
-	rows, err := s.sql.Select(SELECT_ALL+" FROM subscription WHERE id =?", id)
+	rows, err := s.sql.Select(SELECT_ALL+" WHERE id=?", id)
 	if err != nil {
 		return nil, err
 	}
