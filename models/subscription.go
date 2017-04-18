@@ -14,7 +14,7 @@ type Subscription struct {
 	UserID    uuid.UUID          `json:"userId"`
 	Status    SubscriptionStatus `json:"status"`
 	CreatedAt time.Time          `json:"createdAt"`
-	NextOrder time.Time          `json:"time"`
+	NextOrder time.Time          `json:"nextOrder"`
 	Frequency string             `json:"frequency"`
 	RoasterID uuid.UUID          `json:"roasterId"`
 	ItemID    uuid.UUID          `json:"itemId"`
