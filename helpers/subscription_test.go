@@ -35,9 +35,9 @@ func TestGetByIdSuccess(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(id.String()).
-		WillReturnRows(getMockRows().AddRow(id.String(), userID.String(), "ACTIVE", time, "MONTHLY", roasterID.String(), itemID.String(), quantity))
+		WillReturnRows(getMockRows().AddRow(id.String(), userID.String(), "PENDING", time, "MONTHLY", roasterID.String(), itemID.String(), quantity, nil))
 
 	subscription, err := s.GetByID(id.String())
 	fmt.Println(subscription)
@@ -45,7 +45,7 @@ func TestGetByIdSuccess(t *testing.T) {
 	assert.NoError(err)
 	assert.Equal(subscription.ID, id)
 	assert.Equal(subscription.UserID, userID)
-	assert.EqualValues(subscription.Status, models.ACTIVE)
+	assert.EqualValues(subscription.Status, models.PENDING)
 	assert.Equal(subscription.CreatedAt, time)
 	assert.Equal(subscription.Frequency, "MONTHLY")
 	assert.Equal(subscription.RoasterID, roasterID)
@@ -64,7 +64,7 @@ func TestGetByIdFail(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(id.String()).
 		WillReturnError(fmt.Errorf("error"))
 
@@ -86,12 +86,12 @@ func TestGetAllSuccess(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(offset, limit).
 		WillReturnRows(getMockRows().
-			AddRow(uuid.New(), uuid.New(), "PENDING", time, "MONTHLY", uuid.New(), uuid.New(), 1).
-			AddRow(uuid.New(), uuid.New(), "ACTIVE", time, "MONTHLY", uuid.New(), uuid.New(), 1).
-			AddRow(uuid.New(), uuid.New(), "CANCELLED", time, "MONTHLY", uuid.New(), uuid.New(), 1))
+			AddRow(uuid.New(), uuid.New(), "PENDING", time, "MONTHLY", uuid.New(), uuid.New(), 1, nil).
+			AddRow(uuid.New(), uuid.New(), "ACTIVE", time, "MONTHLY", uuid.New(), uuid.New(), 1, nil).
+			AddRow(uuid.New(), uuid.New(), "CANCELLED", time, "MONTHLY", uuid.New(), uuid.New(), 1, nil))
 
 	subscriptions, errTwo := s.GetAll(offset, limit)
 
@@ -111,7 +111,7 @@ func TestGetAllFail(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(offset, limit).
 		WillReturnError(fmt.Errorf("error"))
 
@@ -134,11 +134,11 @@ func TestGetByRoasterSuccess(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(subscription.RoasterID, offset, limit).
 		WillReturnRows(getMockRows().
-			AddRow(uuid.New(), uuid.New(), "PENDING", time, "MONTHLY", subscription.RoasterID.String(), uuid.New(), 1).
-			AddRow(uuid.New(), uuid.New(), "ACTIVE", time, "MONTHLY", subscription.RoasterID.String(), uuid.New(), 1))
+			AddRow(uuid.New(), uuid.New(), "PENDING", time, "MONTHLY", subscription.RoasterID.String(), uuid.New(), 1, nil).
+			AddRow(uuid.New(), uuid.New(), "ACTIVE", time, "MONTHLY", subscription.RoasterID.String(), uuid.New(), 1, nil))
 
 	subscriptions, errTwo := s.GetByRoaster(subscription.RoasterID.String(), offset, limit)
 
@@ -159,7 +159,7 @@ func TestGetByRoasterFail(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(subscription.RoasterID, offset, limit).
 		WillReturnError(fmt.Errorf("error"))
 
@@ -182,11 +182,11 @@ func TestGetByUserSuccess(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(subscription.UserID, offset, limit).
 		WillReturnRows(getMockRows().
-			AddRow(uuid.New(), subscription.UserID.String(), "PENDING", time, "MONTHLY", uuid.New(), uuid.New(), 1).
-			AddRow(uuid.New(), subscription.UserID.String(), "ACTIVE", time, "MONTHLY", uuid.New(), uuid.New(), 1))
+			AddRow(uuid.New(), subscription.UserID.String(), "PENDING", time, "MONTHLY", uuid.New(), uuid.New(), 1, nil).
+			AddRow(uuid.New(), subscription.UserID.String(), "ACTIVE", time, "MONTHLY", uuid.New(), uuid.New(), 1, nil))
 
 	subscriptions, errTwo := s.GetByUser(subscription.UserID.String(), offset, limit)
 
@@ -207,7 +207,7 @@ func TestGetByUserFail(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity FROM subscription").
+	mock.ExpectQuery("SELECT id, userId, status, createdAt, frequency, roasterId, itemId, quantity, nextOrder FROM subscription").
 		WithArgs(subscription.UserID, offset, limit).
 		WillReturnError(fmt.Errorf("error"))
 
@@ -230,8 +230,8 @@ func TestInsertSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("INSERT INTO subscription").
 		ExpectExec().
-		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.ACTIVE),
-			subscription.CreatedAt, subscription.Frequency, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.Quantity).
+		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.PENDING),
+			subscription.CreatedAt, subscription.Frequency, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.Quantity, &time.Time{}).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	errTwo := s.Insert(subscription)
@@ -252,8 +252,8 @@ func TestInsertFail(t *testing.T) {
 
 	mock.ExpectPrepare("INSERT INTO subscription").
 		ExpectExec().
-		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.ACTIVE),
-			subscription.CreatedAt, subscription.Frequency, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.Quantity).
+		WithArgs(subscription.ID.String(), subscription.UserID.String(), string(models.PENDING),
+			subscription.CreatedAt, subscription.Frequency, subscription.RoasterID.String(), subscription.ItemID.String(), subscription.Quantity, &time.Time{}).
 		WillReturnError(fmt.Errorf("error"))
 
 	errTwo := s.Insert(subscription)
@@ -275,8 +275,8 @@ func TestUpdateSuccess(t *testing.T) {
 
 	mock.ExpectPrepare("UPDATE subscription").
 		ExpectExec().
-		WithArgs(string(models.ACTIVE), subscription.Frequency, subscription.RoasterID.String(),
-			subscription.ItemID.String(), subscription.Quantity, subscription.ID.String()).
+		WithArgs(string(models.PENDING), subscription.Frequency, subscription.RoasterID.String(),
+			subscription.ItemID.String(), subscription.Quantity, &time.Time{}, subscription.ID.String()).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	errTwo := s.Update(subscription.ID.String(), subscription)
@@ -297,8 +297,8 @@ func TestUpdateFail(t *testing.T) {
 
 	mock.ExpectPrepare("UPDATE subscription").
 		ExpectExec().
-		WithArgs(string(models.ACTIVE), string(subscription.Frequency), subscription.RoasterID.String(),
-			subscription.ItemID.String(), subscription.Quantity, subscription.ID.String()).
+		WithArgs(string(models.PENDING), string(subscription.Frequency), subscription.RoasterID.String(),
+			subscription.ItemID.String(), subscription.Quantity, &time.Time{}, subscription.ID.String()).
 		WillReturnError(fmt.Errorf("error"))
 
 	errTwo := s.Update(subscription.ID.String(), subscription)
@@ -393,7 +393,7 @@ func TestSetStatusFail(t *testing.T) {
 }
 
 func getMockRows() sqlmock.Rows {
-	return sqlmock.NewRows([]string{"id", "userId", "status", "createdAt", "frequency", "roasterId", "itemId", "quantity"})
+	return sqlmock.NewRows([]string{"id", "userId", "status", "createdAt", "frequency", "roasterId", "itemId", "quantity", "nextOrder"})
 }
 
 type mockContext struct {
