@@ -184,7 +184,7 @@ func (s *Subscription) SetStatus(id string, status models.SubscriptionStatus) er
 
 /*CreateOrder calls Warehouse's newOrder function to create a new subscription*/
 func (s *Subscription) NewOrder(sub *models.Subscription, req *models.RequestOrder) (*wareM.Order, error) {
-	order := wareM.NewOrder(sub.UserID, sub.ID, int(sub.Quantity))
+	order := wareM.NewOrder(sub.UserID, sub.ID, sub.ItemID, sub.Quantity)
 	newOrder, err := s.Warehouse.NewOrder(order)
 	if err != nil {
 		return nil, err
